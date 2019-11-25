@@ -7,6 +7,8 @@ package io.github.jordan00789.sepr;
  import com.badlogic.gdx.graphics.Texture;
  import com.badlogic.gdx.graphics.g2d.Sprite;
  import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+ 
+ import java.lang.Math;
 
  public class Kroy extends ApplicationAdapter {
  	SpriteBatch batch;
@@ -21,7 +23,9 @@ package io.github.jordan00789.sepr;
  	@Override
  	public void create() {
  		batch = new SpriteBatch();
- 		img = new Texture("badlogic.jpg");
+ 		img = new Texture("firetruck.png");
+ 		truck = new Sprite(img, 512, 512);
+ 		truck.setScale(0.25f);
  	}
 
  	@Override
@@ -49,7 +53,9 @@ package io.github.jordan00789.sepr;
  		Gdx.gl.glClearColor(0.8f, 1, 1, 1);
  		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
  		batch.begin();
- 		batch.draw(img, truckx, trucky);
+ 		truck.setPosition(truckx, trucky);
+ 		truck.setRotation((float) (Math.atan2(-truckxv, truckyv)*180/Math.PI));
+ 		truck.draw(batch);
  		batch.end();
  	}
 
