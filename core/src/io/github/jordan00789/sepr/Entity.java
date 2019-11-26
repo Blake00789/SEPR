@@ -1,35 +1,32 @@
 package io.github.jordan00789.sepr;
 
-import java.util.Vector;
-
 public class Entity {
 	
-	private int health;
-	private Vector position;
-	
-	public Entity(int health, Vector position) {
-		this.health = health;
-		this.position = position;
-	}
-	
-	public int getHealth() {
+	private float health;
+	private Coordinate position;
+
+	public float getHealth() {
 		return health;
 	}
-	
-	private void setHealth(int health) {
+
+	public void setHealth(float health) {
 		this.health = health;
 	}
 	
-	public void takeDamage(int damage) {
-		health -= damage;
+	public float takeDamage(int damage) {
+		return health-damage;
 	}
 	
-	public Vector getPos() {
+	public boolean isDestroyed() {
+		return (getHealth() <= 0.0);
+	}
+
+	public Coordinate getPos() {
 		return position;
 	}
-	
-	public Boolean isDestroyed() {
-		return health == 0 ? true : false;
+
+	public void setPosition(Coordinate position) {
+		this.position = position;
 	}
 	
 }
