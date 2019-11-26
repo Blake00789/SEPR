@@ -26,6 +26,7 @@ package io.github.jordan00789.sepr;
  		img = new Texture("firetruck.png");
  		truck = new Sprite(img, 512, 512);
  		truck.setScale(0.25f);
+ 		truck.setOrigin(256, 320);//Drift mode
  	}
 
  	@Override
