@@ -44,10 +44,21 @@ package io.github.jordan00789.sepr;
  		}
  		trucky += truckyv;
  		truckx += truckxv;
- 		if(truckyv>0) {truckyv -= trucka/truckdecel;}
- 		if(truckyv<0) {truckyv += trucka/truckdecel;}
- 		if(truckxv>0) {truckxv -= trucka/truckdecel;}
- 		if(truckxv<0) {truckxv += trucka/truckdecel;}
+
+ 		if (truckyv>0) {
+ 			truckyv -= trucka/truckdecel;
+ 		}
+
+ 		if (truckyv<0) {
+ 			truckyv += trucka/truckdecel;
+ 		}
+
+ 		if (truckxv>0) {
+ 			truckxv -= trucka/truckdecel;
+ 		}
+ 		if (truckxv<0) {
+ 			truckxv += trucka/truckdecel;
+ 		}
 
 
  		Gdx.gl.glClearColor(0.8f, 1, 1, 1);
