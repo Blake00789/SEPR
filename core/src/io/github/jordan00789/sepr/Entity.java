@@ -3,6 +3,7 @@ package io.github.jordan00789.sepr;
 public class Entity {
 	
 	private float health;
+	private Coordinate position;
 
 	public float getHealth() {
 		return health;
@@ -19,6 +20,16 @@ public class Entity {
 	public boolean isDestroyed() {
 		return (getHealth() <= 0.0);
 	}
+
+	public Coordinate getPos() {
+		return position;
+	}
+
+	public void setPosition(Coordinate position) {
+		this.position = position;
+	}
+	
+	
 	
 
 }
