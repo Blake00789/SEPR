@@ -5,7 +5,12 @@ import java.util.Vector;
 public class Entity {
 	
 	private int health;
-	private Vector position;
+	private Vector<Float> position;
+	
+	public Entity(int health, Vector<Float> position) {
+		this.health = health;
+		this.position = position;
+	}
 
 	public float getHealth() {
 		return health;
@@ -19,7 +24,7 @@ public class Entity {
 		health -= damage;
 	}
 	
-	public Vector getPos() {
+	public Vector<Float> getPos() {
 		return position;
 	}
 	
