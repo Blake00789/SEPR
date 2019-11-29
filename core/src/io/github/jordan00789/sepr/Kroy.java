@@ -9,8 +9,12 @@ package io.github.jordan00789.sepr;
  import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  
  import java.lang.Math;
+ import java.util.ArrayList;
+ import java.util.List;
 
- public class Kroy extends ApplicationAdapter {
+public class Kroy extends ApplicationAdapter {
+ 	public static List<Entity> entities;
+
  	SpriteBatch batch;
  	Texture img;
  	Sprite truck;
@@ -22,6 +26,8 @@ package io.github.jordan00789.sepr;
 
  	@Override
  	public void create() {
+ 		entities = new ArrayList<Entity>();
+
  		batch = new SpriteBatch();
  		img = new Texture("firetruck.png");
  		truck = new Sprite(img, 512, 512);
@@ -31,36 +37,6 @@ package io.github.jordan00789.sepr;
 
  	@Override
  	public void render() {
- 		if (Gdx.input.isKeyPressed(Keys.UP)) {
- 			truckyv += Gdx.graphics.getDeltaTime() + trucka;
- 		}
- 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
- 			truckyv -= Gdx.graphics.getDeltaTime() + trucka;
- 		}
- 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
- 			truckxv -= Gdx.graphics.getDeltaTime() + trucka;
- 		}
- 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
- 			truckxv += Gdx.graphics.getDeltaTime() + trucka;
- 		}
- 		trucky += truckyv;
- 		truckx += truckxv;
-
- 		if (truckyv>0) {
- 			truckyv -= trucka/truckdecel;
- 		}
-
- 		if (truckyv<0) {
- 			truckyv += trucka/truckdecel;
- 		}
-
- 		if (truckxv>0) {
- 			truckxv -= trucka/truckdecel;
- 		}
- 		if (truckxv<0) {
- 			truckxv += trucka/truckdecel;
- 		}
-
 
  		Gdx.gl.glClearColor(0.8f, 1, 1, 1);
  		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

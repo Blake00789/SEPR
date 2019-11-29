@@ -10,13 +10,14 @@ public class Entity {
 	public Entity(int health, Vector<Float> position) {
 		this.health = health;
 		this.position = position;
+		Kroy.entities.add(this);
 	}
 
 	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	private void setHealth(int health) {
 		this.health = health;
 	}
 	
