@@ -1,13 +1,13 @@
 package io.github.jordan00789.sepr;
 
-import java.util.Vector;
+import java.awt.Point;
 
 public class Entity {
 
 	private int health;
-	private Vector<Float> position;
+	private Point position;
 
-	public Entity(int health, Vector<Float> position) {
+	public Entity(int health, Point position) {
 		this.health = health;
 		this.position = position;
 	}
@@ -24,7 +24,7 @@ public class Entity {
 		health -= damage;
 	}
 
-	public Vector<Float> getPos() {
+	public Point getPos() {
 		return position;
 	}
 

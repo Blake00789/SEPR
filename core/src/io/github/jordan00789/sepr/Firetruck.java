@@ -1,12 +1,12 @@
 package io.github.jordan00789.sepr;
 
-import java.util.Vector;
+import java.awt.Point;;
 
 public class Firetruck extends Entity{
 
 	private int water;
 
-	public Firetruck(int health, Vector<Float> position, int water) {
+	public Firetruck(int health, Point position, int water) {
 		super(health, position);
 		this.water = water;
 	}
