@@ -5,9 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 import java.awt.*;
 
@@ -25,10 +23,22 @@ public class MainGame implements Screen {
         camera = new OrthographicCamera();
 
         Box2D.init();
-        World world = new World(new Vector2(0, 0), true);
-        Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+        world = new World(new Vector2(0, 0), true);
+        debugRenderer = new Box2DDebugRenderer();
 
         truck = new Firetruck(100, new Point(600,600), 0);
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
+        BodyDef bd = new BodyDef();
+        bd.type = BodyDef.BodyType.DynamicBody;
+        Body body = world.createBody(bd);
+
+        FixtureDef fd = new FixtureDef();
+        fd.density = 1;
+        fd.friction = 0.5f;
+        fd.restitution = 0.3f;
+        loader.attachFixture(body, "Firetruck", fd, 1.0f);
+
+        body.setUserData(truck);
     }
 
     public void render(float delta) {
