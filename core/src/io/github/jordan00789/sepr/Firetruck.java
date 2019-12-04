@@ -9,10 +9,9 @@ public class Firetruck extends Entity{
 
     private int water;
 
-    private string texture = "firetruck.png";
 
     public Firetruck(int health, Point position, int water) {
-        super(health, position);
+        super(health, position, new Texture("firetruck.png"));
         this.water = water;
     }
 
