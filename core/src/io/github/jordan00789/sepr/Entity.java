@@ -1,15 +1,19 @@
 package io.github.jordan00789.sepr;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.awt.Point;
 
 public class Entity {
 
     private int health;
     private Point position;
+    private Texture image;
 
-    public Entity(int health, Point position) {
+    public Entity(int health, Point position, Texture image) {
         this.health = health;
         this.position = position;
+        this.image = image;
     }
 
     public float getHealth() {
@@ -32,6 +36,9 @@ public class Entity {
         return (getHealth() <= 0);
     }
 
+    public Texture getTexture() {
+        return image;
+    }
 	/*private void setPos(Vector position) {
 		this.position = position;
 	}
