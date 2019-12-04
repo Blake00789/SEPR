@@ -1,6 +1,8 @@
 package io.github.jordan00789.sepr;
 
 import java.awt.Point;
+
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Entity extends Sprite {
@@ -8,8 +10,8 @@ public class Entity extends Sprite {
 	private int health;
 	private Point position;
 
-	public Entity(int health, Point position, Sprite sprite) {
-		super(sprite);
+	public Entity(int health, Point position, Texture texture) {
+		super(texture);
 		this.health = health;
 		this.position = position;
 	}
@@ -38,11 +40,11 @@ public class Entity extends Sprite {
 		return (getHealth() <= 0);
 	}
 	
-	public double distance(Vector<Float> v) {
+	/*public double distance(Vector<Float> v) {
 		double x=getPos().get(0)-v.get(0);
 		double y=getPos().get(1)-v.get(1);
 		return Math.sqrt(Math.pow(x,2)+Math.pow(y, 2));
-	}
+	}*/
 
 	/*private void setPos(Vector position) {
 		this.position = position;

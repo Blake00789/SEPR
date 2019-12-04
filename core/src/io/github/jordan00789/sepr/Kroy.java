@@ -13,9 +13,8 @@ import java.lang.Math;
 
 public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game instead?
 	SpriteBatch batch;
-	//Texture img = new Texture("firetruck.png");
-	Sprite truck;
-	//Firetruck truck1 = new Firetruck(200, new Point(0,0), 100, new Sprite(new Texture("firetruck.png")));
+	Texture img;
+	Firetruck truck1;
 	float truckx = 0;
 	float trucky = 0;
 	float trucka = 0.1f;
@@ -25,11 +24,10 @@ public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game ins
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		//img = new Texture("firetruck.png");
-		truck = new Sprite(new Texture("firetruck.png"));
-		//Firetruck truck1 = new Firetruck(200, new Point(0,0), 100, new Sprite(img));
-		//truck1.setScale(0.25f);
-		//truck1.setOrigin(256, 320);//Drift mode
+		img = new Texture("firetruck.png");
+		truck1 = new Firetruck(200, new Point(0,0), 100, img);
+		truck1.setScale(0.25f);
+		truck1.setOrigin(256, 320);//Drift mode
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game ins
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			//truck1.getWater();
+			truck1.takeWater(1);
 		}
 		
 		trucky += truckyv;
@@ -73,9 +71,9 @@ public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game ins
 		Gdx.gl.glClearColor(0.8f, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		truck.setPosition(truckx, trucky);
-		truck.setRotation((float) (Math.atan2(-truckxv, truckyv)*180/Math.PI));
-		truck.draw(batch);
+		truck1.setPosition(truckx, trucky);
+		truck1.setRotation((float) (Math.atan2(-truckxv, truckyv)*180/Math.PI));
+		truck1.draw(batch);
 		batch.end();
 	}
 
@@ -84,6 +82,6 @@ public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game ins
 	@Override
 	public void dispose() {
 		batch.dispose();
-		//img.dispose();
+		img.dispose();
 	}
 }

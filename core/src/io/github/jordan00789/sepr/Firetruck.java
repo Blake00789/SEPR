@@ -1,6 +1,8 @@
 package io.github.jordan00789.sepr;
 
 import java.awt.Point;
+
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Firetruck extends Entity/*implements Moveable*/{
@@ -12,8 +14,8 @@ public class Firetruck extends Entity/*implements Moveable*/{
 	private static int flowRate = 5;
 	
 
-	public Firetruck(int health, Point position, int volume, Sprite sprite) {
-		super(health, position, sprite);
+	public Firetruck(int health, Point position, int volume, Texture texture) {
+		super(health, position, texture);
 		this.volume = water = volume;
 		System.out.println("hello world!");
 	}
