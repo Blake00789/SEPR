@@ -1,13 +1,15 @@
 package io.github.jordan00789.sepr;
 
 import java.awt.Point;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Entity {
+public class Entity extends Sprite {
 
 	private int health;
 	private Point position;
 
-	public Entity(int health, Point position) {
+	public Entity(int health, Point position, Sprite sprite) {
+		super(sprite);
 		this.health = health;
 		this.position = position;
 	}
@@ -16,7 +18,7 @@ public class Entity {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	protected void setHealth(int health) {
 		this.health = health;
 	}
 
@@ -26,6 +28,10 @@ public class Entity {
 
 	public Point getPos() {
 		return position;
+	}
+	
+	protected void setPos(Point position) {//Already methods built into Sprite, should switch to those
+		this.position = position;
 	}
 
 	public boolean isDestroyed() {

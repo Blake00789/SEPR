@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.awt.Point;
 import java.lang.Math;
 
-public class Kroy extends ApplicationAdapter {
+public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game instead?
 	SpriteBatch batch;
-	Texture img;
+	//Texture img = new Texture("firetruck.png");
 	Sprite truck;
+	//Firetruck truck1 = new Firetruck(200, new Point(0,0), 100, new Sprite(new Texture("firetruck.png")));
 	float truckx = 0;
 	float trucky = 0;
 	float trucka = 0.1f;
@@ -23,10 +25,11 @@ public class Kroy extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		img = new Texture("firetruck.png");
-		truck = new Sprite(img, 512, 512);
-		truck.setScale(0.25f);
-		truck.setOrigin(256, 320);//Drift mode
+		//img = new Texture("firetruck.png");
+		truck = new Sprite(new Texture("firetruck.png"));
+		//Firetruck truck1 = new Firetruck(200, new Point(0,0), 100, new Sprite(img));
+		//truck1.setScale(0.25f);
+		//truck1.setOrigin(256, 320);//Drift mode
 	}
 
 	@Override
@@ -43,6 +46,11 @@ public class Kroy extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			truckxv += Gdx.graphics.getDeltaTime() + trucka;
 		}
+		
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+			//truck1.getWater();
+		}
+		
 		trucky += truckyv;
 		truckx += truckxv;
 
@@ -76,6 +84,6 @@ public class Kroy extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		img.dispose();
+		//img.dispose();
 	}
 }
