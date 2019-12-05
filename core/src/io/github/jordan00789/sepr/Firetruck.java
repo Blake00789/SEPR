@@ -1,22 +1,21 @@
 package io.github.jordan00789.sepr;
 
-import java.awt.Point;
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Firetruck extends Entity/*implements Moveable*/{
+public class Firetruck extends Entity implements Moveable {
 
 	private int water;
-	private int volume;//could change to maxWater
-	
+	private int maxWater;
+	float acceleration = 0.1f;
+	float deceleration = 2;
+	float xvelocity, yvelocity;
+
 	private static int range = 10;
 	private static int flowRate = 5;
-	
 
-	public Firetruck(int health, Point position, int volume, Texture texture) {
-		super(health, position, texture);
-		this.volume = water = volume;
+	public Firetruck(int health, int maxWater, Texture texture) {
+		super(health, texture);
+		this.maxWater = water = maxWater;
 		System.out.println("hello world!");
 	}
 
@@ -25,25 +24,31 @@ public class Firetruck extends Entity/*implements Moveable*/{
 	}
 
 	private void setWater(int amount) {
-		if (amount <= volume && amount > 0) {
+		if (amount <= maxWater && amount > 0) {
 			water = amount;
 		}
 	}
 
 	public void refill() {
-		setWater(volume);
+		setWater(maxWater);
 	}
-	
+
 	public void takeWater(int amount) {
 		System.out.println("water is " + water);
-		if (amount <= volume && amount > 0) {
+		if (amount <= water && amount > 0) {
 			water -= amount;
 		}
 	}
+	
+	public void changeXSpeed(float amount) {
+		//System.out.println("xvelocity is"+xvelocity);
+		xvelocity += amount;
+	}
+	
+	public void changeYSpeed(float amount) {
+		//System.out.println("yvelocity is"+yvelocity);
+		yvelocity += amount;
+	}
 
-	/*@Override
-	public void movePos(int direction, int speed) {
-		// TODO Auto-generated method stub
-	}*/
 
 }
