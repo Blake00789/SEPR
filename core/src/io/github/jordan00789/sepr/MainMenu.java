@@ -17,6 +17,7 @@ public class MainMenu implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
+        //Menu branch
     }
 
     @Override
