@@ -21,7 +21,7 @@ public class MainGame implements Screen {
 
 
         camera = new OrthographicCamera();
-
+        camera.setToOrtho(false, 1920, 1080);
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
