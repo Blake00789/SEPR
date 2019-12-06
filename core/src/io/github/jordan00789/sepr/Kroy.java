@@ -1,6 +1,7 @@
 package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.Point;
 import java.lang.Math;
 
-public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game instead?
+public class Kroy extends Game {//FIXME Switch to extends Game instead?
 	SpriteBatch batch;
 	Texture img;
 	Firetruck truck1;
@@ -34,6 +35,7 @@ public class Kroy extends ApplicationAdapter {//FIXME Switch to extends Game ins
 		
 		currentTruck = truck1;
 		currentTruck.setColor(Color.RED);
+
 	}
 
 	@Override
