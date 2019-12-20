@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -15,6 +16,10 @@ public class MainGame implements Screen {
     Firetruck truck;
     World world;
     Box2DDebugRenderer debugRenderer;
+    Fortress fortress_1;
+    Fortress fortress_2;
+    Bullet bullet;
+
 
     public MainGame(final Kroy game) {
         this.game = game;
@@ -26,7 +31,7 @@ public class MainGame implements Screen {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        truck = new Firetruck(100, new Point(600,600), 0);
+        truck=new Firetruck(100, new Vector2(600,600) ,10);
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
         BodyDef bd = new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
@@ -39,9 +44,26 @@ public class MainGame implements Screen {
         loader.attachFixture(body, "Firetruck", fd, 1.0f);
 
         body.setUserData(truck);
+        
+        fortress_1 = new Fortress( 100, new Vector2(100,100),  new Texture("castle.png"));
+        fortress_2 = new Fortress( 100,  new Vector2(400,400),  new Texture("minster.png"));
     }
 
     public void render(float delta) {
+    	
+    	// shooting code
+    	if(fortress_1.position.dst(truck.position) < bullet.shooting_distance) {
+    		bullet= new Bullet(fortress_1.position.x,fortress_1.position.y);
+    		bullet.direction_x=(truck.position.x-fortress_1.position.x)/(fortress_1.position.dst(truck.position));
+    	    bullet.direction_y=(truck.position.y-fortress_1.position.y)/(fortress_1.position.dst(truck.position));
+    	    
+    	}
+    	bullet.update(delta);
+//    	if(bullet.remove) {
+//    		bullet.removeAll();
+//    	}
+    	
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
@@ -80,4 +102,5 @@ public class MainGame implements Screen {
     @Override
     public void dispose() {
     }
+    
 }
