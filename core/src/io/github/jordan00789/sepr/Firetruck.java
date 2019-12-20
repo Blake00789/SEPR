@@ -11,13 +11,13 @@ public class Firetruck extends Entity{
 
     private int water;
 
-
+    
     public Firetruck(int health, Vector2 position, int water) {
         super(health, position, new Texture("firetruck.png"));
         this.water = water;
 
     }
-    
+   
     public Firetruck(int health, float x , float y , int water) {
 		super(health, x,y,new Texture("firetruck.png"));
 	    this.water = water;	

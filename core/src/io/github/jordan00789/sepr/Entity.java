@@ -50,7 +50,6 @@ public class Entity {
     
     
     
- 
 	/*private void setPos(Vector position) {
 		this.position = position;
 	}

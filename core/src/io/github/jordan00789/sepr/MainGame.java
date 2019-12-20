@@ -59,10 +59,6 @@ public class MainGame implements Screen {
     	    
     	}
     	bullet.update(delta);
-//    	if(bullet.remove) {
-//    		bullet.removeAll();
-//    	}
-    	
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);

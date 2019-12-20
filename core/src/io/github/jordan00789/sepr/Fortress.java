@@ -22,5 +22,4 @@ public class Fortress extends Entity {
  	}
 
 
-
 }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
 	
-
 	public static final double shooting_distance = 30.0;
 	
 	public static final int SPEED = 200;
