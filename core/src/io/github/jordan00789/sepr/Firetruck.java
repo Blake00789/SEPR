@@ -1,14 +1,16 @@
 package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Firetruck extends Entity implements Moveable {
+public class Firetruck extends Entity implements Moveable,Attack {
 
 	private int water;
 	private int maxWater;
 	float acceleration = 0.1f;
 	float deceleration = 2;
-	float xvelocity, yvelocity;
+	private int direction = 0;
+	private float velocity = 0;
 
 	private static int range = 10;
 	private static int flowRate = 5;
@@ -16,7 +18,6 @@ public class Firetruck extends Entity implements Moveable {
 	public Firetruck(int health, int maxWater, Texture texture) {
 		super(health, texture);
 		this.maxWater = water = maxWater;
-		System.out.println("hello world!");
 	}
 
 	public int getWater() {
@@ -34,20 +35,60 @@ public class Firetruck extends Entity implements Moveable {
 	}
 
 	public void takeWater(int amount) {
-		System.out.println("water is " + water);
 		if (amount <= water && amount > 0) {
 			water -= amount;
 		}
 	}
 	
-	public void changeXSpeed(float amount) {
-		//System.out.println("xvelocity is"+xvelocity);
-		xvelocity += amount;
+	private void setDirection(int direction) {
+		this.direction = direction;
 	}
 	
-	public void changeYSpeed(float amount) {
-		//System.out.println("yvelocity is"+yvelocity);
-		yvelocity += amount;
+	public int getDirection() {
+		return direction;
+	}
+	
+	private void setVelocity(float velocity) {
+		this.velocity = velocity;
+	}
+	
+	public float getVelocity() {
+		return velocity;
+	}
+	
+	public void turnLeft() {
+		if (getDirection() == 0) {
+			setDirection(360);
+		} else {
+			setDirection(getDirection()-1);
+		}
+	}
+
+	public void turnRight() {
+		if (getDirection() == 360) {
+			setDirection(0);
+		} else {
+			setDirection(getDirection()+1);
+		}
+	}
+	
+	public void goForward() {
+		setVelocity(getVelocity()+acceleration);
+	}
+	
+	public void goBackward() {
+		setVelocity(getVelocity()-acceleration);
+	}
+	
+	public void update(float delta) {
+		setX((float)((getX() + Math.sin(direction))*delta*velocity));
+		setY((float)((getY() + Math.cos(direction))*delta*velocity));
+	}
+
+	@Override
+	public void attack() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
