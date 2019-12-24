@@ -41,7 +41,7 @@ public class MainGame implements Screen {
         fd.density = 1;
         fd.friction = 0.5f;
         fd.restitution = 0.3f;
-        loader.attachFixture(body, "Firetruck", fd, 1.0f);
+        loader.attachFixture(body, "firetruck", fd, 1.0f);
 
         body.setUserData(truck);
         
