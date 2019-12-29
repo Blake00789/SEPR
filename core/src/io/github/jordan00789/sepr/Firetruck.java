@@ -12,8 +12,8 @@ public class Firetruck extends Entity{
     private int water;
 
     
-    public Firetruck(int health, Vector2 position, int water) {
-        super(health, position, new Texture("firetruck.png"));
+    public Firetruck(int health, Vector2 position, int water, Texture tex) {
+        super(health, position, tex);
         this.water = water;
 
     }
