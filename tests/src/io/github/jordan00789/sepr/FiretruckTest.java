@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 
 @RunWith(GdxTestRunner.class)
 public class FiretruckTest {
@@ -16,8 +15,7 @@ public class FiretruckTest {
 
 	@Before
 	public void init() {
-		Vector2 point = new Vector2(2,4);
-		truck = new Firetruck(100, point , 500, new Texture("../core/assets/firetruck.png"));
+		truck = new Firetruck(100, 500, new Texture("../core/assets/firetruck.png"));
 	}
 
 	@Test
@@ -26,6 +24,37 @@ public class FiretruckTest {
 		org.junit.Assert.assertTrue(truck.getWater() == 500);
 	}
 
+	@Test
+	public void testRefill() {
+		truck.takeWater(50);
+		assertTrue(truck.getWater() == 450);
+		truck.refill();
+		assertTrue(truck.getWater() == 500);
+	}
+
+	@Test
+	public void testTurning() {
+		assertTrue(truck.getDirection() == 0);
+		truck.turnRight();
+		assertTrue(truck.getDirection() > 0);
+		truck.turnLeft();
+		assertTrue(truck.getDirection() == 0);
+	}
+
+	@Test
+	public void testUpdate() {
+		assertTrue(truck.getVelocity() == 0);
+		truck.goForward();
+		float v = truck.getVelocity();
+		assertTrue(v > 0);
+		truck.update(1,50);
+		assertTrue(truck.getVelocity() < v);
+	}
+
+	@Test
+	public void testAttack() {
+		// TODO not yet implemented
+	}
 
 	@After
 	public void clean() {

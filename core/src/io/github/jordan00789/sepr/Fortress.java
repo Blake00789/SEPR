@@ -1,25 +1,31 @@
 package io.github.jordan00789.sepr;
 
-import java.awt.Point;
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 
-public class Fortress extends Entity {
+public class Fortress extends Entity implements Attack{
 	
 	
-	public Fortress(int health, Vector2 position , Texture image) {
-		 super(health, position, image);		
+	public Fortress(int health, Texture texture) {
+		super(health,texture);
+		
 	}
 	
-	public Fortress(int health, float x , float y  , Texture image) {
-		 super(health, x,y, image);		
+	public Fortress(int health, float x, float y, Texture texture) {
+		 super(health, x, y, texture);		
 	}
 
+	public void attack() {
+		/*if( isAlive() && this.distance(getPos()) < shooting_distance){
+			gunshot();
+		}*/
+	}
+	
+	public void gunshot() {
+		
+	}
 
   	public boolean isAlive() {
  		return (getHealth() > 0);
  	}
-
 
 }
