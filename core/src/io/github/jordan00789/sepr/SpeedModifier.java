@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class SpeedModifier extends Entity {
 
-    public final float multiplier;
+    public final float maxspeed;
     private Color color;
 
     /**
@@ -15,9 +15,9 @@ public class SpeedModifier extends Entity {
     public SpeedModifier(float maxspeed) {
         //some arbitrarily high value for health, since these should never break;
         super(1000000, new Texture("speed.png"));
-        this.multiplier = maxspeed;
+        this.maxspeed = maxspeed;
 
-        if (multiplier < 200.0f) {
+        if (this.maxspeed < 200.0f) {
             color = Color.RED;
         }
 

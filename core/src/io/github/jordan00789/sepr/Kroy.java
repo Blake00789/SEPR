@@ -17,6 +17,9 @@ public class Kroy extends Game {
 	Firetruck truck1;
 	Firetruck truck2;
 	Firetruck currentTruck;
+	SpeedModifier[] modifiers;
+	SpeedModifier speedy;
+	SpeedModifier notsospeedy;
 	World world;
 	Body truck;
 
@@ -32,7 +35,19 @@ public class Kroy extends Game {
 		truck2 = new Firetruck(200, 100, img);
 		truck2.setScale(0.3f);
 		truck2.setOrigin(256, 256);
-		
+
+		speedy = new SpeedModifier(200);
+		speedy.setScale(400, 200);
+		speedy.setPosition(500 ,500);
+
+		notsospeedy = new SpeedModifier(50);
+		notsospeedy.setScale(200, 100);
+		notsospeedy.setScale(800, 800);
+
+		modifiers = new SpeedModifier[2];
+		modifiers[0] = speedy;
+		modifiers[1] = notsospeedy;
+
 		currentTruck = truck1;
 		currentTruck.setColor(Color.RED);
 		
@@ -45,9 +60,22 @@ public class Kroy extends Game {
 		Gdx.gl.glClearColor(0.8f, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		truck1.update(Gdx.graphics.getDeltaTime());
-		truck2.update(Gdx.graphics.getDeltaTime());
-		
+		float truck1max = 1000f;
+		float truck2max = 1000f;
+
+		for (SpeedModifier modifier: modifiers) {
+			if (truck1.getBoundingRectangle().overlaps(modifier.getBoundingRectangle())){
+				truck1max = modifier.maxspeed;
+			}
+			if (truck2.getBoundingRectangle().overlaps(modifier.getBoundingRectangle())) {
+				truck2max = modifier.maxspeed;
+			}
+
+			modifier.draw(batch);
+		}
+		truck1.update(Gdx.graphics.getDeltaTime(), truck1max);
+		truck2.update(Gdx.graphics.getDeltaTime(), truck2max);
+
 		truck1.draw(batch);
 		truck2.draw(batch);
 		batch.end();

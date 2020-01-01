@@ -73,7 +73,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		if (direction >= 0 && direction <= 360) {
 			this.direction = direction;
 		} else {
-			throw new RuntimeException();
+			//throw new RuntimeException();
 		}
 	}
 
@@ -142,13 +142,17 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	 * 
 	 * @param delta The current delta time.
 	 */
-	public void update(float delta) {
+	public void update(float delta, float maxspeed) {
 		if (velocity > 0.01f) {
 			velocity -= deceleration;
 		} else if (velocity < 0.01f) {
 			velocity += deceleration;
 		} else {
 			velocity = 0;
+		}
+
+		if (velocity > maxspeed) {
+			velocity = maxspeed;
 		}
 		setRotation(-direction * (float) (180 / Math.PI));
 		setX((float) (getX() + (Math.sin(direction) * delta * velocity)));
