@@ -8,16 +8,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.*;
 
 public class MainGame implements Screen {
     final Kroy game;
     OrthographicCamera camera;
-    Firetruck truck;
     World world;
     Box2DDebugRenderer debugRenderer;
-    Fortress fortress_1;
-    Fortress fortress_2;
+    Firetruck truck1;
+	Firetruck truck2;
+	Firetruck currentTruck;
+    Fortress fortress1;
+    Fortress fortress2;
+    Fortress fortress3;
     Bullet bullet;
 
 
@@ -30,32 +37,39 @@ public class MainGame implements Screen {
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
-
-        truck=new Firetruck(100, new Vector2(600,600) ,10);
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
+        
+        //BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
         BodyDef bd = new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(bd);
+        //Body body = world.createBody(bd);
 
         FixtureDef fd = new FixtureDef();
         fd.density = 1;
         fd.friction = 0.5f;
         fd.restitution = 0.3f;
-        loader.attachFixture(body, "firetruck", fd, 1.0f);
-
-        body.setUserData(truck);
+        //loader.attachFixture(body, "firetruck", fd, 1.0f);
+        //body.setUserData(truck);
         
-        fortress_1 = new Fortress( 100, new Vector2(100,100),  new Texture("castle.png"));
-        fortress_2 = new Fortress( 100,  new Vector2(400,400),  new Texture("minster.png"));
+        truck1 = new Firetruck(200, 100, new Texture("firetruck.png"));
+		truck1.setScale(0.25f);
+		truck1.setOrigin(256, 256);
+		truck2 = new Firetruck(200, 100, new Texture("firetruck.png"));
+		truck2.setScale(0.3f);
+		truck2.setOrigin(256, 256);
+		currentTruck = truck1;
+		currentTruck.setColor(Color.RED);
+        fortress1 = new Fortress(100, new Texture("castle.png"), 500f, 100f);
+        fortress2 = new Fortress(100, new Texture("minster.png"), 1000f, 500f);
+        fortress3 = new Fortress(100, new Texture("station.png"), 100f, 700f);
     }
 
     public void render(float delta) {
     	
     	// shooting code
-    	if(fortress_1.position.dst(truck.position) < bullet.shooting_distance) {
-    		bullet= new Bullet(fortress_1.position.x,fortress_1.position.y);
-    		bullet.direction_x=(truck.position.x-fortress_1.position.x)/(fortress_1.position.dst(truck.position));
-    	    bullet.direction_y=(truck.position.y-fortress_1.position.y)/(fortress_1.position.dst(truck.position));
+    	if(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()) < bullet.shooting_distance) {
+    		bullet= new Bullet(1, new Texture("badlogic.jpg"), fortress1.getX(), fortress1.getY());
+    		bullet.direction_x=(currentTruck.getX()-fortress1.getX()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
+    	    bullet.direction_y=(currentTruck.getY()-fortress1.getY()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
     	    
     	}
     	bullet.update(delta);
@@ -68,7 +82,8 @@ public class MainGame implements Screen {
 
         game.batch.begin();
         game.font.draw(game.batch, "My test text", 480, 480);
-        game.batch.draw(truck.getTexture(), truck.getPos().x, truck.getPos().y);
+        truck1.draw(game.batch);
+        truck2.draw(game.batch);
         game.batch.end();
 
         debugRenderer.render(world, camera.combined);

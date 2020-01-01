@@ -12,6 +12,12 @@ public class Entity extends Sprite {
 		super(texture);
 		this.health = health;
 	}
+	
+	public Entity(int health, Texture texture, float x, float y) {
+		super(texture);
+		setPosition(x,y);
+		this.health = health;
+	}
 
 	public float getHealth() {
 		return health;

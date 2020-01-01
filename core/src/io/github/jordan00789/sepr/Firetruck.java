@@ -164,4 +164,11 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	public void attack() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void update(float delta) {
+		this.update(delta, 1000);
+		
+	}
 }

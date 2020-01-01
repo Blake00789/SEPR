@@ -5,37 +5,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bullet {
+public class Bullet extends Entity implements Moveable{
 	
 	public static final double shooting_distance = 30.0;
 	
 	public static final int SPEED = 200;
-	public static Texture texture; 
 	
-	float x,y,direction_x, direction_y; // should be change to vector 
-	Vector2 vec = new Vector2( x,  y);
+	float x,y,direction_x, direction_y; // should be change to vector
 	public boolean remove= false;
 	
-	public Bullet(float x , float y) {
-		vec.x=x;
-		vec.y=y;
+	public Bullet(int health, Texture texture, float x, float y) {
+		super(health, texture);
+		setX(x);
+		setY(y);
 		
 		if(texture==null)
 			texture = new Texture("badlogic.jpg"); // should change the image to bullet image later
 	}
 	
 	public void update(float deltaTime) {
-		vec.x += SPEED * deltaTime * direction_x;
-		vec.y += SPEED * deltaTime * direction_y;
+		setX(getX() + SPEED * deltaTime * direction_x);
+		setY(getY() + SPEED * deltaTime * direction_y);
 		
-		if( vec.y > Gdx.graphics.getHeight() || vec.y < 0 || vec.x < 0 || vec.x > Gdx.graphics.getWidth()) {
+		if( getY() > Gdx.graphics.getHeight() || getY() < 0 || getX() < 0 || getX() > Gdx.graphics.getWidth()) {
 			remove=true;
 		}
 	}
 	
 	
 	public void render( SpriteBatch batch) {
-		batch.draw(texture, vec.x, vec.y);
+		batch.draw(getTexture(), getX(), getY());
 	}
 
 }
