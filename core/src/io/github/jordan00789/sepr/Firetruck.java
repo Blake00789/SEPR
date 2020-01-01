@@ -141,6 +141,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	 * Updates the truck's position and rotation.
 	 * 
 	 * @param delta The current delta time.
+	 * @param maxspeed The maximum speed the truck can reach.
 	 */
 	public void update(float delta, float maxspeed) {
 		if (velocity > 0.01f) {
