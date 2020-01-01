@@ -4,15 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Fortress extends Entity implements Attack{
 	
-	public static final double shooting_distance = 10.0;    
 	
 	public Fortress(int health, Texture texture) {
 		super(health,texture);
 		
 	}
 	
-	public boolean isAlive() {
-		return (getHealth() > 0);
+	public Fortress(int health, float x, float y, Texture texture) {
+		 super(health, x, y, texture);		
 	}
 
 	public void attack() {
@@ -24,5 +23,9 @@ public class Fortress extends Entity implements Attack{
 	public void gunshot() {
 		
 	}
+
+  	public boolean isAlive() {
+ 		return (getHealth() > 0);
+ 	}
 
 }

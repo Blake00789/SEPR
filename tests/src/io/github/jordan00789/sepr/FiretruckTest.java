@@ -1,7 +1,6 @@
 package io.github.jordan00789.sepr;
 
 import static org.junit.Assert.assertTrue;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,6 @@ public class FiretruckTest {
 		org.junit.Assert.assertTrue(truck.getWater() == 500);
 	}
 
-
 	@Test
 	public void testRefill() {
 		truck.takeWater(50);
@@ -42,7 +40,6 @@ public class FiretruckTest {
 		truck.turnLeft();
 		assertTrue(truck.getDirection() == 0);
 	}
-
 
 	@Test
 	public void testUpdate() {
