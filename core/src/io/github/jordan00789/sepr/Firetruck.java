@@ -164,7 +164,9 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	
 	private float speedLimit() {
 		/*
-		 * TODO Fix the colours underneath the truck
+		 * TODO
+		 * Fix the colours underneath the truck
+		 * Fix rotation bug
 		 * 
 		int pixcolour = speedMap.getPixel(Math.round(getX()+256), Math.round(getY()+256));
 		String col = "#"+Integer.toHexString(pixcolour);

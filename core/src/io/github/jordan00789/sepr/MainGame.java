@@ -64,8 +64,12 @@ public class MainGame implements Screen {
     private void loadFortresses() {
     	fortress1 = new Fortress(100, new Texture("ctower.png"), 950, 250);
     	fortress1.setSize(128, 128);
-        fortress2 = new Fortress(100, new Texture("minster.png"), 1000f, 500f);
-        fortress3 = new Fortress(100, new Texture("station.png"), 100f, 700f);
+    	
+        fortress2 = new Fortress(100, new Texture("minster.png"), 850, 980);
+        fortress2.setSize(128, 128);
+        
+        fortress3 = new Fortress(100, new Texture("station.png"), 550, 700);
+        fortress3.setSize(128, 128);
     }
     
     private void loadTrucks() {
@@ -120,6 +124,8 @@ public class MainGame implements Screen {
         truck1.draw(game.batch);
         truck2.draw(game.batch);
         fortress1.draw(game.batch);
+        fortress2.draw(game.batch);
+        fortress3.draw(game.batch);
         
   
         game.batch.end();
