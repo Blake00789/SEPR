@@ -29,10 +29,10 @@ public class MainMenu implements Screen {
 
         game.batch.begin();
         game.font.draw(game.batch, "Welcome to Kroy!!! ", 100, 150);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
+        game.font.draw(game.batch, "Click anywhere to begin!", 100, 100);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
+        if (/*Gdx.input.isTouched()*/true) {
             game.setScreen(new MainGame(game));
             dispose();
         }
