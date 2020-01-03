@@ -13,8 +13,9 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	private float deceleration = 0.5f;
 	private float direction = 0;
 	private float velocity = 0;
-	private Pixmap speedMap = new Pixmap(Gdx.files.internal("map.png"));
-
+	private Pixmap map = new Pixmap(Gdx.files.internal("map.png"));
+	private Pixmap speedMap;
+	
 	// These will be used in the attack method
 	private static int range = 10;
 	private static int flowRate = 5;
@@ -30,6 +31,10 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	public Firetruck(int health, int maxWater, Texture texture) {
 		super(health, texture);
 		this.maxWater = water = maxWater;
+		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), map.getFormat());
+		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
+		System.out.println(speedMap.getHeight()+ "   "+speedMap.getWidth());
 	}
 
 	/** @return The truck's current amount of water. */
@@ -74,11 +79,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	 *                          thrown.
 	 */
 	private void setDirection(float direction) {
-		if (direction >= 0 && direction <= 360) {
-			this.direction = direction;
-		} else {
-			//throw new RuntimeException();
-		}
+		this.direction = direction;
 	}
 
 	/** @return The truck's current direction. */
@@ -125,20 +126,26 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	 */
 	private float getTurnSpeed() {
 		if (velocity > 50f) {
-			return (5 / velocity);
+			return (400f / velocity);
 		} else {
-			return 0.1f;
+			return 8f;
 		}
 	}
 
 	/** Moves the truck forward. */
 	public void goForward() {
-		setVelocity(getVelocity() + acceleration);
+		float maxSpeed = speedLimit();
+		if (velocity < maxSpeed) {
+			setVelocity(getVelocity() + acceleration);
+		}
 	}
 
 	/** Moves the truck backward. */
 	public void goBackward() {
-		setVelocity(getVelocity() - acceleration);
+		float maxSpeed = speedLimit();
+		if (velocity > -maxSpeed) {
+			setVelocity(getVelocity() - acceleration);
+		}
 	}
 
 	/**
@@ -149,50 +156,50 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	 */
 	@Override
 	public void update(float delta) {
-		float maxSpeed = speedLimit();
-		if (velocity > 0.01f && velocity < maxSpeed) {
+		if (velocity > 0.01f) {
 			velocity -= deceleration;
-		} else if (velocity < 0.01f && velocity > -maxSpeed) {
+		} else if (velocity < -0.01f) {
 			velocity += deceleration;
 		} else {
 			velocity = 0;
 		}
-		setRotation(-direction * (float) (180 / Math.PI));
-		setX((float) (getX() + (Math.sin(direction) * delta * velocity)));
-		setY((float) (getY() + (Math.cos(direction) * delta * velocity)));
+		setRotation(-direction);
+		setX((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)));
+		setY((float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
 	}
 	
 	private float speedLimit() {
 		/*
 		 * TODO
 		 * Fix the colours underneath the truck
-		 * Fix rotation bug
 		 * 
+		 */
 		int pixcolour = speedMap.getPixel(Math.round(getX()+256), Math.round(getY()+256));
+	
 		String col = "#"+Integer.toHexString(pixcolour);
-		System.out.println(col);
+		System.out.println((getX()+256) + "   " + (getY()+256) + "   " + col);
 		if(col.length()>5) {
 			col = col.substring(0, 6);
 		}
 		switch(col) {
 		case("#f0cd7d")://buildings
 			return 100f;
-		case("")://grass
+		case("edfee8")://grass
 			return 40f;
 		case("#cfffc1")://grass 2
 			return 40f;
 		case("#d0ffc1")://grass 3
 			return 40f;
-		case("#edfee9")://wall
-			setVelocity(0);
+		case("#dff0ce")://wall
+			setVelocity(-5f);
 			return 0f;
 		case("#b0e9ff")://water
-			setVelocity(0);
+			setVelocity(-5f);
 			return 0f;
 		default:
 			return 200f;
-		}*/
-		return 1000f;
+		}
+		//return 200f;
 	}
 
 	@Override

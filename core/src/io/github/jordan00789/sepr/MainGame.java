@@ -37,7 +37,7 @@ public class MainGame implements Screen {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
@@ -57,6 +57,8 @@ public class MainGame implements Screen {
         
         loadTrucks();
         loadFortresses();
+        System.out.println(camera.viewportWidth + "  " + camera.viewportHeight);
+        System.out.println(Gdx.graphics.getWidth() + "  " + Gdx.graphics.getHeight());
         
         map = new Texture("map.png");
     }
@@ -116,7 +118,7 @@ public class MainGame implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(map,0,0,Gdx.graphics.getWidth()*(8f/7), Gdx.graphics.getHeight()*(8f/7));
+        game.batch.draw(map,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         //game.font.draw(game.batch, "My test text", 480, 480);
         truck1.update(Gdx.graphics.getDeltaTime());
