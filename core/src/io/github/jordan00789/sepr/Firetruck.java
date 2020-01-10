@@ -33,8 +33,6 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		this.maxWater = water = maxWater;
 		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), map.getFormat());
 		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
-		System.out.println(speedMap.getHeight()+ "   "+speedMap.getWidth());
 	}
 
 	/** @return The truck's current amount of water. */
@@ -163,6 +161,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		} else {
 			velocity = 0;
 		}
+		
 		setRotation(-direction);
 		setX((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)));
 		setY((float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
@@ -174,15 +173,20 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		 * Fix the colours underneath the truck
 		 * 
 		 */
-		int pixcolour = speedMap.getPixel(Math.round(getX()+256), Math.round(getY()+256));
-	
+		int pixcolour = speedMap.getPixel(Math.round(getX()+265), Gdx.graphics.getHeight()-Math.round(getY()+256));
 		String col = "#"+Integer.toHexString(pixcolour);
-		System.out.println((getX()+256) + "   " + (getY()+256) + "   " + col);
 		if(col.length()>5) {
-			col = col.substring(0, 6);
+			col = col.substring(0, 7);
 		}
+		/*for(int i = 1; i < col.length(); i++) {
+			if(i%2 == 0) {
+				
+			}
+		}*/
 		switch(col) {
 		case("#f0cd7d")://buildings
+			return 100f;
+		case("#f1cf7b")://buildings
 			return 100f;
 		case("edfee8")://grass
 			return 40f;
@@ -190,7 +194,9 @@ public class Firetruck extends Entity implements Moveable, Attack {
 			return 40f;
 		case("#d0ffc1")://grass 3
 			return 40f;
-		case("#dff0ce")://wall
+		case("#926650")://wall
+			setVelocity(-5f);
+		case("#916650")://wall 2
 			setVelocity(-5f);
 			return 0f;
 		case("#b0e9ff")://water

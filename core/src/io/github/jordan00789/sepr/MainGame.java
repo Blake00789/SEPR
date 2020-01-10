@@ -64,30 +64,32 @@ public class MainGame implements Screen {
     }
     
     private void loadFortresses() {
-    	fortress1 = new Fortress(100, new Texture("ctower.png"), 950, 250);
+    	int width = Gdx.graphics.getWidth()-128;
+    	int height = Gdx.graphics.getHeight()-128;
+    	fortress1 = new Fortress(100, new Texture("ctower.png"), (0.53f*width), 0.26f*height);
     	fortress1.setSize(128, 128);
     	
-        fortress2 = new Fortress(100, new Texture("minster.png"), 850, 980);
+        fortress2 = new Fortress(100, new Texture("station.png"), (0.29f*width), (0.66f*height));
         fortress2.setSize(128, 128);
         
-        fortress3 = new Fortress(100, new Texture("station.png"), 550, 700);
+        fortress3 = new Fortress(100, new Texture("minster.png"), (0.47f*width), (0.82f*height));
         fortress3.setSize(128, 128);
     }
     
     private void loadTrucks() {
     	Texture img = new Texture("firetruck.png");
 		
-		truck1 = new Firetruck(256, 256, img);
+		truck1 = new Firetruck(2500, 5, img);
 		truck1.setScale(0.05f);
 		truck1.setOrigin(256, 256);
 		
 		truck2 = new Firetruck(200, 100, img);
-		truck2.setScale(0.08f);
+		truck2.setScale(0.05f);
 		truck2.setOrigin(256, 256);
 		
 		camTruck = new Firetruck(1,1, img);
-		camTruck.setX(700);
-		camTruck.setY(300);
+		camTruck.setX((Gdx.graphics.getWidth()/2)-256);
+		camTruck.setY((Gdx.graphics.getHeight()/2)-256);
 		
 		currentTruck = truck1;
 		currentTruck.setColor(Color.RED);
