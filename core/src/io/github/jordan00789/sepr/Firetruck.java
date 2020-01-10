@@ -15,7 +15,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	private float velocity = 0;
 	private Pixmap map = new Pixmap(Gdx.files.internal("map.png"));
 	private Pixmap speedMap;
-	
+
 	// These will be used in the attack method
 	private static int range = 10;
 	private static int flowRate = 5;
@@ -32,7 +32,10 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		super(health, texture);
 		this.maxWater = water = maxWater;
 		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), map.getFormat());
-		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
+		// Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
+		System.out.println(speedMap.getHeight() + "   " + speedMap.getWidth());
 	}
 
 	/** @return The truck's current amount of water. */
@@ -149,7 +152,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	/**
 	 * Updates the truck's position and rotation.
 	 * 
-	 * @param delta The current delta time.
+	 * @param delta    The current delta time.
 	 * @param maxspeed The maximum speed the truck can reach.
 	 */
 	@Override
@@ -161,54 +164,42 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		} else {
 			velocity = 0;
 		}
-		
 		setRotation(-direction);
 		setX((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)));
 		setY((float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
 	}
-	
+
 	private float speedLimit() {
 		/*
-		 * TODO
-		 * Fix the colours underneath the truck
+		 * TODO Fix the colours underneath the truck
 		 * 
 		 */
-		int pixcolour = speedMap.getPixel(Math.round(getX()+265), Gdx.graphics.getHeight()-Math.round(getY()+256));
-		/*Convert our interger to a hex value represented as a string (the mask value removes the last 4 digits of each
-		color */
-		String col = "#"+Integer.toHexString(pixcolour & 15790320);
-		if(col.length()>5) {
-			col = col.substring(0, 7);
+		int pixcolour = speedMap.getPixel(Math.round(getX() + 256), Math.round(getY() + 256));
+
+		String col = "#" + Integer.toHexString(pixcolour);
+		System.out.println((getX() + 256) + "   " + (getY() + 256) + "   " + col);
+		if (col.length() > 5) {
+			col = col.substring(0, 6);
 		}
-		/*for(int i = 1; i < col.length(); i++) {
-			if(i%2 == 0) {
-				
-			}
-		}*/
-		System.out.println(col);
-		switch(col) {
-		case("#f0cd7d")://buildings
+		switch (col) {
+		case ("#f0cd7d"):// buildings
 			return 100f;
-		case("#f1cf7b")://buildings
-			return 100f;
-		case("edfee8")://grass
+		case ("edfee8"):// grass
 			return 40f;
-		case("#cfffc1")://grass 2
+		case ("#cfffc1"):// grass 2
 			return 40f;
-		case("#d0ffc1")://grass 3
+		case ("#d0ffc1"):// grass 3
 			return 40f;
-		case("#926650")://wall
-			setVelocity(-5f);
-		case("#916650")://wall 2
+		case ("#dff0ce"):// wall
 			setVelocity(-5f);
 			return 0f;
-		case("#b0e9ff")://water
+		case ("#b0e9ff"):// water
 			setVelocity(-5f);
 			return 0f;
 		default:
 			return 200f;
 		}
-		//return 200f;
+		// return 200f;
 	}
 
 	@Override
