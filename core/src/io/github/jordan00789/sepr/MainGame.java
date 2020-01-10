@@ -115,8 +115,16 @@ public class MainGame implements Screen {
     	
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        
-        camera.position.set(currentTruck.getX()+256,currentTruck.getY()+256,0);
+
+        /*Ensure camera x and y will never show parts of the map that are out of bounds
+        This works because we zoom out a factor of a half, but from the midpoint of the screen (our truck), it takes
+        half the width to reach the left or right (or half the height for up/down). */
+        float cameraX = Math.max(0.25f*Gdx.graphics.getWidth(), Math.min(currentTruck.getX()+256, 0.75f*Gdx.graphics.getWidth()));
+        float cameraY = Math.max(0.25f*Gdx.graphics.getHeight(), Math.min(currentTruck.getY()+256, 0.75f*Gdx.graphics.getHeight()));
+
+        System.out.println(currentTruck.getX()+256);
+        System.out.println(currentTruck.getY()+256);
+        camera.position.set(cameraX, cameraY, 0);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
