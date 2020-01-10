@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bullet extends Entity implements Moveable{
 	
-	public static final double shooting_distance = 30.0;
+	public static final double shooting_distance = 300.0;
 	
-	public static final int SPEED = 200;
+	public static final int SPEED = 0;
 	
 	float x,y,direction_x, direction_y; // should be change to vector
 	public boolean remove= false;
@@ -19,8 +19,7 @@ public class Bullet extends Entity implements Moveable{
 		setX(x);
 		setY(y);
 		
-		if(texture==null)
-			texture = new Texture("badlogic.jpg"); // should change the image to bullet image later
+		//texture = new Texture("badlogic.jpg"); // should change the image to bullet image later
 	}
 	
 	public void update(float deltaTime) {
