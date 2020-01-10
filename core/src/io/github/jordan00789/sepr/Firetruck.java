@@ -185,7 +185,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 				
 			}
 		}*/
-		System.out.println(col);
+		//System.out.println(col);
 		switch(col) {
 		case("#f0cd7d")://buildings
 			return 100f;

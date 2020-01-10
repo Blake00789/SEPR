@@ -6,19 +6,21 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+//import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MainGame implements Screen {
     final Kroy game;
     OrthographicCamera camera;
-    World world;
-    Box2DDebugRenderer debugRenderer;
+    ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+    float stateTime;
+	
     
     
     //Entities
@@ -38,9 +40,6 @@ public class MainGame implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Box2D.init();
-        world = new World(new Vector2(0, 0), true);
-        debugRenderer = new Box2DDebugRenderer();
         /*
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
         BodyDef bd = new BodyDef();
@@ -57,8 +56,8 @@ public class MainGame implements Screen {
         
         loadTrucks();
         loadFortresses();
-        System.out.println(camera.viewportWidth + "  " + camera.viewportHeight);
-        System.out.println(Gdx.graphics.getWidth() + "  " + Gdx.graphics.getHeight());
+        //System.out.println(camera.viewportWidth + "  " + camera.viewportHeight);
+        //System.out.println(Gdx.graphics.getWidth() + "  " + Gdx.graphics.getHeight());
         
         map = new Texture("map.png");
     }
@@ -100,17 +99,31 @@ public class MainGame implements Screen {
     
 
     public void render(float delta) {
-    	/*
+    	
     	// shooting code
-    	if(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()) < bullet.shooting_distance) {
+    	System.out.println(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()));
+    	if(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()) <  Bullet.shooting_distance && bullets.size()< 30) {
+    		//System.out.println(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()));
     		bullet= new Bullet(1, new Texture("badlogic.jpg"), fortress1.getX(), fortress1.getY());
+    		bullets.add(bullet);
     		bullet.direction_x=(currentTruck.getX()-fortress1.getX()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
     	    bullet.direction_y=(currentTruck.getY()-fortress1.getY()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
     	    
     	}
-    	bullet.update(delta);
-    	*/
     	
+	    
+	    ArrayList<Bullet> bulletToRemove= new ArrayList<Bullet>();
+	
+	    if(!(bullets.isEmpty() )) {
+			bullet.update(delta);
+			if(bullet.remove) {
+				bulletToRemove.add(bullet);
+			}
+	    }
+	    
+	    bullets.removeAll(bulletToRemove);
+    	
+    	stateTime = delta;
     	takeInputs();
     	
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -131,12 +144,15 @@ public class MainGame implements Screen {
         fortress2.draw(game.batch);
         fortress3.draw(game.batch);
         
-  
+        for( Bullet bullet : bullets) {
+        	bullet.draw(game.batch);
+        }
+        
         game.batch.end();
 
-        debugRenderer.render(world, camera.combined);
-        world.step(1/60f, 6, 2);
-    }
+        
+	}
+	
     
     private void takeInputs() {
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
