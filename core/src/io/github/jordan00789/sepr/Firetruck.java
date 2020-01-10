@@ -174,7 +174,9 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		 * 
 		 */
 		int pixcolour = speedMap.getPixel(Math.round(getX()+265), Gdx.graphics.getHeight()-Math.round(getY()+256));
-		String col = "#"+Integer.toHexString(pixcolour);
+		/*Convert our interger to a hex value represented as a string (the mask value removes the last 4 digits of each
+		color */
+		String col = "#"+Integer.toHexString(pixcolour & 15790320);
 		if(col.length()>5) {
 			col = col.substring(0, 7);
 		}
@@ -183,6 +185,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 				
 			}
 		}*/
+		System.out.println(col);
 		switch(col) {
 		case("#f0cd7d")://buildings
 			return 100f;
