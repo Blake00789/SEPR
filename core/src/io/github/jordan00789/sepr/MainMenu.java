@@ -30,7 +30,7 @@ public class MainMenu implements Screen {
         camera.setToOrtho(false, 1920, 1080);
 
 
-        menuImage = new Texture("SEPR_menu v2.png");
+        menuImage = new Texture("SEPR_menuV2.720p.png");
         batch = new SpriteBatch();
     }
 
