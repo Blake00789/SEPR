@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenu implements Screen {
 
@@ -18,11 +20,15 @@ public class MainMenu implements Screen {
 
     OrthographicCamera camera;
 
+    private Stage stage;
+
     public MainMenu(final Kroy game) {
         this.game = game;
 
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
+
 
         menuImage = new Texture("SEPR_menu v2.png");
         batch = new SpriteBatch();
