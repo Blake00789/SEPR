@@ -37,4 +37,28 @@ public class Bullet extends Entity implements Moveable{
 		batch.draw(getTexture(), getX(), getY());
 	}
 
+	@Override
+	public void turnLeft() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turnRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void goForward() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void goBackward() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
