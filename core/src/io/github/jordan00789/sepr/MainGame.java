@@ -80,7 +80,7 @@ public class MainGame implements Screen {
 		
 		currentTruck = truck1;
 		currentTruck.setColor(Color.RED);
-		camera.zoom = 0.25f;
+		camera.zoom = 0.5f;
 		entities.add(truck1, truck2);
     }
     
@@ -103,6 +103,7 @@ public class MainGame implements Screen {
     	
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        
 
         /*Ensure camera x and y will never show parts of the map that are out of bounds
         This works because we zoom out a factor of a half, but from the midpoint of the screen (our truck), it takes
@@ -122,7 +123,7 @@ public class MainGame implements Screen {
         	e.update(delta);
         	e.draw(game.batch);
         }
-        
+        //drop is short for droplet
         for(Projectile drop : currentTruck.drops) {
 			drop.draw(game.batch);
 		}
@@ -154,13 +155,13 @@ public class MainGame implements Screen {
 			currentTruck.setColor(Color.WHITE);
 			currentTruck = truck1;
 			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.25f;
+			camera.zoom = 0.5f;
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_2)) {
 			currentTruck.setColor(Color.WHITE);
 			currentTruck = truck2;
 			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.25f;
+			camera.zoom = 0.5f;
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_0)) {
