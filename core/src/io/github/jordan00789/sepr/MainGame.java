@@ -18,8 +18,10 @@ import java.util.ArrayList;
 public class MainGame implements Screen {
     final Kroy game;
     OrthographicCamera camera;
-    ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+    ArrayList<Bullet> bullets1= new ArrayList<Bullet>();
     float stateTime;
+    float direction;
+    int count=0;
 	
     
     
@@ -38,7 +40,7 @@ public class MainGame implements Screen {
     public MainGame(final Kroy game) {
         this.game = game;
 
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(); 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         /*
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
@@ -101,29 +103,59 @@ public class MainGame implements Screen {
     public void render(float delta) {
     	
     	// shooting code
-    	System.out.println(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()));
-    	if(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()) <  Bullet.shooting_distance && bullets.size()< 30) {
-    		//System.out.println(fortress1.distanceTo(currentTruck.getX(), currentTruck.getY()));
-    		bullet= new Bullet(1, new Texture("badlogic.jpg"), fortress1.getX(), fortress1.getY());
-    		bullets.add(bullet);
-    		bullet.direction_x=(currentTruck.getX()-fortress1.getX()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
-    	    bullet.direction_y=(currentTruck.getY()-fortress1.getY()/(fortress1.distanceTo(currentTruck.getX(),currentTruck.getY())));
-    	    
-    	}
+    	float distance_1=(float) Math.sqrt((currentTruck.getY()+15)*(currentTruck.getY()+15)+(currentTruck.getX()-420)*(currentTruck.getX()-420));
+    	float distance_2=(float) Math.sqrt((currentTruck.getY()-178)*(currentTruck.getY()-178)+(currentTruck.getX()-135)*(currentTruck.getX()-135));
+    	float distance_3=(float) Math.sqrt((currentTruck.getY()-260)*(currentTruck.getY()-260)+(currentTruck.getX()-345)*(currentTruck.getX()-345));
     	
-	    
+    	
+    	System.out.println(currentTruck.getX());
+    	System.out.println(currentTruck.getY());
+    	if((distance_1 <  Bullet.shooting_distance | distance_2 <  Bullet.shooting_distance  || distance_3 <  Bullet.shooting_distance ) &&  bullets1.size()< 1) {
+    		bullet= new Bullet(  new Texture("badlogic.jpg"));
+    		if(distance_1 <  Bullet.shooting_distance ) {
+    			System.out.println(distance_1);
+    			bullet.setX((fortress1.getX()+64));
+        		bullet.setY(fortress1.getY()+64);
+        		bullet.setDirection_x(((currentTruck.getX()-420)/(distance_1)));
+        	    bullet.setDirection_y(((currentTruck.getY()+20)/(distance_1)));
+        		bullet.setSize(20, 20);
+        		bullet.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+    		}else if(distance_2 <  Bullet.shooting_distance) {
+    			System.out.println(distance_2);
+    			bullet.setX((fortress2.getX()+64));
+        		bullet.setY(fortress2.getY()+64);
+        		bullet.setDirection_x(((currentTruck.getX()-135)/(distance_1)));
+        	    bullet.setDirection_y(((currentTruck.getY()-178)/(distance_1)));
+        		bullet.setSize(20, 20);
+        		bullet.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
+    			
+    		}else {
+    			System.out.println(distance_2);
+    			bullet.setX((fortress3.getX()+64));
+        		bullet.setY(fortress3.getY()+64);
+        		bullet.setDirection_x(((currentTruck.getX()-345)/(distance_1)));
+        	    bullet.setDirection_y(((currentTruck.getY()-260)/(distance_1)));
+        		bullet.setSize(20, 20);
+        		bullet.setOrigin((fortress3.getX()+64), (fortress3.getY()+64));
+    		}
+    		   		
+    		bullets1.add(bullet);
+    
+    	}
+    		    
 	    ArrayList<Bullet> bulletToRemove= new ArrayList<Bullet>();
 	
-	    if(!(bullets.isEmpty() )) {
+	    if(!(bullets1.isEmpty() )) {	    	
 			bullet.update(delta);
+			
 			if(bullet.remove) {
 				bulletToRemove.add(bullet);
 			}
 	    }
-	    
-	    bullets.removeAll(bulletToRemove);
+
+	    bullets1.removeAll(bulletToRemove);    	
+    	stateTime += delta;
     	
-    	stateTime = delta;
     	takeInputs();
     	
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -135,7 +167,6 @@ public class MainGame implements Screen {
         game.batch.begin();
         game.batch.draw(map,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
-        //game.font.draw(game.batch, "My test text", 480, 480);
         truck1.update(Gdx.graphics.getDeltaTime());
 		truck2.update(Gdx.graphics.getDeltaTime());
         truck1.draw(game.batch);
@@ -144,9 +175,10 @@ public class MainGame implements Screen {
         fortress2.draw(game.batch);
         fortress3.draw(game.batch);
         
-        for( Bullet bullet : bullets) {
+        for( Bullet bullet : bullets1) {
         	bullet.draw(game.batch);
         }
+       
         
         game.batch.end();
 

@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Entity extends Sprite {
 
 	private int health;
+	
+	public Entity( Texture texture) {
+		super(texture);
+		this.health = health;
+	}
 
 	public Entity(int health, Texture texture) {
 		super(texture);
