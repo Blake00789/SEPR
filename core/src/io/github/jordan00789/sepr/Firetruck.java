@@ -1,11 +1,12 @@
 package io.github.jordan00789.sepr;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Firetruck extends Entity implements Moveable, Attack {
+public class Firetruck extends Entity implements Attack, Moveable {
 
 	private int water;
 	private int maxWater;
@@ -15,10 +16,11 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	private float velocity = 0;
 	private Pixmap map = new Pixmap(Gdx.files.internal("map.png"));
 	private Pixmap speedMap;
-	
+	public ArrayList<Projectile> drops = new ArrayList<Projectile>();
+
 	// These will be used in the attack method
-	private static int range = 10;
-	private static int flowRate = 5;
+	// private static int range = 10;
+	private static float flowRate = 10f;
 
 	/**
 	 * Creates a Firetruck sprite using the texture provided, with the specified
@@ -32,9 +34,14 @@ public class Firetruck extends Entity implements Moveable, Attack {
 		super(health, texture);
 		this.maxWater = water = maxWater;
 		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), map.getFormat());
-		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
-		System.out.println(speedMap.getHeight()+ "   "+speedMap.getWidth());
+//<<<<<<< HEAD
+//		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//		//Gdx.graphics.getWidth(), Gdx.graphics.getHeight()
+//		System.out.println(speedMap.getHeight()+ "   "+speedMap.getWidth());
+//=======
+//		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(),
+//				Gdx.graphics.getHeight());
+//>>>>>>> branch 'master' of https://github.com/Jordan00789/SEPR.git
 	}
 
 	/** @return The truck's current amount of water. */
@@ -102,6 +109,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	}
 
 	/** Turns the truck left. */
+	@Override
 	public void turnLeft() {
 		if (getDirection() <= 0) {
 			setDirection(360);
@@ -111,6 +119,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	}
 
 	/** Turns the truck right. */
+	@Override
 	public void turnRight() {
 		if (getDirection() >= 360) {
 			setDirection(0);
@@ -133,17 +142,17 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	}
 
 	/** Moves the truck forward. */
+	@Override
 	public void goForward() {
-		float maxSpeed = speedLimit();
-		if (velocity < maxSpeed) {
+		if (velocity < speedLimit()) {
 			setVelocity(getVelocity() + acceleration);
 		}
 	}
 
 	/** Moves the truck backward. */
+	@Override
 	public void goBackward() {
-		float maxSpeed = speedLimit();
-		if (velocity > -maxSpeed) {
+		if (velocity > -speedLimit()) {
 			setVelocity(getVelocity() - acceleration);
 		}
 	}
@@ -151,7 +160,7 @@ public class Firetruck extends Entity implements Moveable, Attack {
 	/**
 	 * Updates the truck's position and rotation.
 	 * 
-	 * @param delta The current delta time.
+	 * @param delta    The current delta time.
 	 * @param maxspeed The maximum speed the truck can reach.
 	 */
 	@Override
@@ -164,48 +173,105 @@ public class Firetruck extends Entity implements Moveable, Attack {
 			velocity = 0;
 		}
 		setRotation(-direction);
-		setX((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)));
-		setY((float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
-	}
-	
-	private float speedLimit() {
-		/*
-		 * TODO
-		 * Fix the colours underneath the truck
-		 * 
-		 */
-		int pixcolour = speedMap.getPixel(Math.round(getX()+256), Math.round(getY()+256));
-	
-		String col = "#"+Integer.toHexString(pixcolour);
-		System.out.println((getX()+256) + "   " + (getY()+256) + "   " + col);
-		if(col.length()>5) {
-			col = col.substring(0, 6);
+		float maxSpeed = speedLimit();
+		if (velocity > maxSpeed || velocity < -maxSpeed) {
+			velocity = maxSpeed;
 		}
-		switch(col) {
-		case("#f0cd7d")://buildings
-			return 100f;
-		case("edfee8")://grass
-			return 40f;
-		case("#cfffc1")://grass 2
-			return 40f;
-		case("#d0ffc1")://grass 3
-			return 40f;
-		case("#dff0ce")://wall
-			setVelocity(-5f);
-			return 0f;
-		case("#b0e9ff")://water
-			setVelocity(-5f);
-			return 0f;
-		default:
-			return 200f;
+		drops.removeIf(drop -> drop.isDispose());
+		for(Projectile drop : drops) {
+			drop.update(delta);
 		}
-		//return 200f;
+
+		setPosition((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)),
+				(float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
 	}
+
+	/**
+	 * Calculates the truck's max speed and returns it.
+	 * 
+	 * @return Speed limit.
+	 * 
+	 */
+//	private float speedLimit() {
+//<<<<<<< HEAD
+//		/*
+//		 * TODO
+//		 * Fix the colours underneath the truck
+//		 * 
+//		 */
+//		int pixcolour = speedMap.getPixel(Math.round(getX()+256), Math.round(getY()+256));
+//	
+//		String col = "#"+Integer.toHexString(pixcolour);
+//		System.out.println((getX()+256) + "   " + (getY()+256) + "   " + col);
+//		if(col.length()>5) {
+//			col = col.substring(0, 6);
+//=======
+//		float c = (float) Math.PI / 180;
+//		int pixcolour;
+//		if (velocity > 0) {
+//			pixcolour = speedMap.getPixel(Math.round(getX() + 256 + ((float) Math.sin(direction * c) * 9)),
+//					Gdx.graphics.getHeight() - Math.round(getY() + 256 + ((float) Math.cos(direction * c) * 9)));
+//		} else {
+//			pixcolour = speedMap.getPixel(Math.round(getX() + 256 - ((float) Math.sin(direction * c) * 9)),
+//					Gdx.graphics.getHeight() - Math.round(getY() + 256 - ((float) Math.cos(direction * c) * 9)));
+//		}
+//		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
+//		String col = "#" + Integer.toHexString(pixcolour & 15790320);
+//		if (col.length() > 2) {
+//
+//			col = col.substring(0, 7);
+//>>>>>>> branch 'master' of https://github.com/Jordan00789/SEPR.git
+//		}
+//<<<<<<< HEAD
+//		switch(col) {
+//		case("#f0cd7d")://buildings
+//=======
+//		switch (col) {
+//		case ("#c070f0"):// buildings
+//>>>>>>> branch 'master' of https://github.com/Jordan00789/SEPR.git
+//			return 100f;
+//<<<<<<< HEAD
+//		case("edfee8")://grass
+//			return 40f;
+//		case("#cfffc1")://grass 2
+//			return 40f;
+//		case("#d0ffc1")://grass 3
+//			return 40f;
+//		case("#dff0ce")://wall
+//			setVelocity(-5f);
+//=======
+//		case ("#d070f0"):// buildings 2
+//			return 100f;
+//		case ("#f0f0f0"):// road
+//			return 100f;
+//		case ("#f0c0f0"):// grass
+//			return 30f;
+//		case ("#6040f0"):// walls
+//			setVelocity(0f);
+//>>>>>>> branch 'master' of https://github.com/Jordan00789/SEPR.git
+//			return 0f;
+//		case ("#6050f0"):// walls 2
+//			setVelocity(0f);
+//			return 0f;
+//		case ("#e0f0f0"):// water
+//			setVelocity(0f);
+//			return 0f;
+//		case ("#c0f0f0"):// water 2
+//			setVelocity(0f);
+//			return 0f;
+//		default:
+//			// System.err.println("Unknown colour");
+//			return 100f;
+//		}
+//	}
 
 	@Override
 	public void attack() {
-		// TODO Auto-generated method stub
-
+		if (drops.size() < 10) {
+			System.out.println("oof");
+			takeWater(1);
+			Projectile drop = new Projectile(getX()+128, getY()+128, getDirection(), flowRate+velocity, 5f, new Texture("badlogic.jpg"));
+			drops.add(drop);
+		}
 	}
-
 }

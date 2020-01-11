@@ -34,4 +34,9 @@ public class Entity extends Sprite {
 	public boolean isDestroyed() {
 		return (getHealth() <= 0);
 	}
+	
+	public void update(float delta) {
+	}
+	
+	
 }
