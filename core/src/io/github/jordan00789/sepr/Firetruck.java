@@ -189,7 +189,6 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private float speedLimit() {
 		float c = (float) Math.PI / 180;
 		int pixcolour;
-		// Choose whether to check the pixel under the front or back of the truck
 		if (velocity > 0) {
 			pixcolour = speedMap.getPixel(Math.round(getX() + 256 + ((float) Math.sin(direction * c) * 9)),
 					Gdx.graphics.getHeight() - Math.round(getY() + 256 + ((float) Math.cos(direction * c) * 9)));
@@ -197,9 +196,10 @@ public class Firetruck extends Entity implements Attack, Moveable {
 			pixcolour = speedMap.getPixel(Math.round(getX() + 256 - ((float) Math.sin(direction * c) * 9)),
 					Gdx.graphics.getHeight() - Math.round(getY() + 256 - ((float) Math.cos(direction * c) * 9)));
 		}
-		// Convert 32-bit RGBA8888 integer to 3-bit hex code
+		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
 		if (col.length() > 2) {
+
 			col = col.substring(0, 7);
 		}
 		switch (col) {
