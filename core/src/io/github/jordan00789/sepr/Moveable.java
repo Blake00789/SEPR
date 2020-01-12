@@ -1,9 +1,19 @@
 package io.github.jordan00789.sepr;
 
-import java.util.Vector;
-
 public interface Moveable {
-    //public void setPos(Vector<Float> coordinate);
-    //public void movePos(int direction, int speed);
-	public void update(float delta, float maxspeed);
+
+	/** Turns the entity left. */
+	public void turnLeft();
+
+	/** Turns the entity right. */
+	public void turnRight();
+
+	/** Moves the entity forward. */
+	public void goForward();
+
+	/** Moves the entity backward. */
+	public void goBackward();
+
+	/** Updates the entity's movement. */
+	public void update(float delta);
 }

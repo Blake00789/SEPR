@@ -47,7 +47,7 @@ public class FiretruckTest {
 		truck.goForward();
 		float v = truck.getVelocity();
 		assertTrue(v > 0);
-		truck.update(1,50);
+		truck.update(1);
 		assertTrue(truck.getVelocity() < v);
 	}
 

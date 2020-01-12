@@ -3,6 +3,15 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SEPR.iml" filepath="$PROJECT_DIR$/.idea/SEPR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SEPR.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SEPR.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SEPR.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SEPR.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SEPR.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SEPR.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/SEPR.desktop.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.iml" filepath="$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.test.iml" filepath="$PROJECT_DIR$/.idea/modules/tests/SEPR.tests.test.iml" />
     </modules>
   </component>
 </project>

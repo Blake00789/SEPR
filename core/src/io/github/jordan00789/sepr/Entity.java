@@ -7,9 +7,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Entity extends Sprite {
 
 	private int health;
+	
+	public Entity( Texture texture) {
+		super(texture);
+		this.health = health;
+	}
 
 	public Entity(int health, Texture texture) {
 		super(texture);
+		this.health = health;
+	}
+	
+	public Entity(int health, Texture texture, float x, float y) {
+		super(texture);
+		setPosition(x,y);
 		this.health = health;
 	}
 
@@ -28,4 +39,9 @@ public class Entity extends Sprite {
 	public boolean isDestroyed() {
 		return (getHealth() <= 0);
 	}
+	
+	public void update(float delta) {
+	}
+	
+	
 }
