@@ -13,72 +13,58 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenu implements Screen {
 
-    final Kroy game;
+	final Kroy game;
+	OrthographicCamera camera;
 
-    private Texture menuImage;
-    private SpriteBatch batch;
+	private Texture menuImage;
 
-    OrthographicCamera camera;
+	public MainMenu(final Kroy game) {
+		this.game = game;
 
-    private Stage stage;
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    public MainMenu(final Kroy game) {
-        this.game = game;
+		menuImage = new Texture("SEPR_menuV2.720p.png");
+	}
 
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		game.batch.begin();
+		game.batch.draw(menuImage, 0, 0);
+		game.batch.end();
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
+		camera.update();
+		game.batch.setProjectionMatrix(camera.combined);
 
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			game.setScreen(new MainGame(game));
+			dispose();
+		}
+	}
 
-        menuImage = new Texture("SEPR_menuV2.720p.png");
-        batch = new SpriteBatch();
-    }
+	@Override
+	public void resize(int width, int height) {
+	}
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(menuImage,0,0);
-        batch.end();
+	@Override
+	public void show() {
+	}
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+	@Override
+	public void hide() {
+	}
 
+	@Override
+	public void pause() {
+	}
 
+	@Override
+	public void resume() {
+	}
 
-      /*  game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Kroy!!! ", 100, 150);
-        game.font.draw(game.batch, "Click anywhere to begin!", 100, 100);
-        game.batch.end();
-      */
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new MainGame(game));
-            dispose();
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void show() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
-    }
+	@Override
+	public void dispose() {
+	}
 }

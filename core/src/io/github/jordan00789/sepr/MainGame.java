@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 //import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.Game;
@@ -22,6 +23,7 @@ public class MainGame implements Screen {
     float stateTime;
     float direction;
     int count=0;
+    float entityScale;
 	
     
     
@@ -35,6 +37,8 @@ public class MainGame implements Screen {
     Fortress fortress3;
     Bullet bullet;
     Texture map;
+    
+    Array<Entity> entities = new Array<Entity>();
 
 
     public MainGame(final Kroy game) {
@@ -42,59 +46,53 @@ public class MainGame implements Screen {
 
         camera = new OrthographicCamera(); 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        /*
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
-        BodyDef bd = new BodyDef();
-        bd.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(bd);
 
-        FixtureDef fd = new FixtureDef();
-        fd.density = 1;
-        fd.friction = 0.5f;
-        fd.restitution = 0.3f;
-        loader.attachFixture(body, "firetruck", fd, 1.0f);
-        body.setUserData(truck);
-        */
-        
+        entityScale = 0.05f;
         loadTrucks();
         loadFortresses();
-        //System.out.println(camera.viewportWidth + "  " + camera.viewportHeight);
-        //System.out.println(Gdx.graphics.getWidth() + "  " + Gdx.graphics.getHeight());
         
         map = new Texture("map.png");
     }
     
-    private void loadFortresses() {
-    	int width = Gdx.graphics.getWidth()-128;
-    	int height = Gdx.graphics.getHeight()-128;
-    	fortress1 = new Fortress(100, new Texture("ctower.png"), (0.53f*width), 0.26f*height);
-    	fortress1.setSize(128, 128);
-    	
-        fortress2 = new Fortress(100, new Texture("station.png"), (0.29f*width), (0.66f*height));
-        fortress2.setSize(128, 128);
-        
-        fortress3 = new Fortress(100, new Texture("minster.png"), (0.47f*width), (0.82f*height));
-        fortress3.setSize(128, 128);
-    }
+	private void loadFortresses() {
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+		fortress1 = new Fortress(100, new Texture("ctower.png"));
+		initEntity(fortress1, (0.53f * width)-500, (0.26f * height)-500);
+
+		fortress2 = new Fortress(100, new Texture("station.png"));
+		initEntity(fortress2, (0.29f * width)-500, (0.66f * height)-500);
+
+		fortress3 = new Fortress(100, new Texture("minster.png"));
+		initEntity(fortress3, (0.47f * width)-500, (0.82f * height)-500);
+
+		entities.add(fortress1, fortress2, fortress3);
+	}
     
     private void loadTrucks() {
-    	Texture img = new Texture("firetruck.png");
-		
+		Texture img = new Texture("firetruck.png");
+
 		truck1 = new Firetruck(2500, 5, img);
-		truck1.setScale(0.05f);
-		truck1.setOrigin(256, 256);
-		
+		initEntity(truck1, -200, -200);
+
 		truck2 = new Firetruck(200, 100, img);
-		truck2.setScale(0.05f);
-		truck2.setOrigin(256, 256);
-		
-		camTruck = new Firetruck(1,1, img);
-		camTruck.setX((Gdx.graphics.getWidth()/2)-256);
-		camTruck.setY((Gdx.graphics.getHeight()/2)-256);
-		
+		initEntity(truck2, -150, -200);
+
+		camTruck = new Firetruck(1, 1, img);
+		camTruck.setX((Gdx.graphics.getWidth() / 2) - 256);
+		camTruck.setY((Gdx.graphics.getHeight() / 2) - 256);
+
 		currentTruck = truck1;
 		currentTruck.setColor(Color.RED);
-		camera.zoom = 0.5f;
+		camera.zoom = 0.25f;
+
+		entities.add(truck1, truck2);
+	}
+
+    private void initEntity(Entity e, float x, float y) {
+    	e.setScale(entityScale);
+    	e.setOriginCenter();
+    	e.setPosition(x, y);
     }
     
     
@@ -108,12 +106,12 @@ public class MainGame implements Screen {
     	float distance_3=(float) Math.sqrt((currentTruck.getY()-260)*(currentTruck.getY()-260)+(currentTruck.getX()-345)*(currentTruck.getX()-345));
     	
     	
-    	System.out.println(currentTruck.getX());
-    	System.out.println(currentTruck.getY());
+    	//System.out.println(currentTruck.getX());
+    	//System.out.println(currentTruck.getY());
     	if((distance_1 <  Bullet.shooting_distance | distance_2 <  Bullet.shooting_distance  || distance_3 <  Bullet.shooting_distance ) &&  bullets1.size()< 1) {
     		bullet= new Bullet(  new Texture("badlogic.jpg"));
     		if(distance_1 <  Bullet.shooting_distance ) {
-    			System.out.println(distance_1);
+    			//System.out.println(distance_1);
     			bullet.setX((fortress1.getX()+64));
         		bullet.setY(fortress1.getY()+64);
         		bullet.setDirection_x(((currentTruck.getX()-420)/(distance_1)));
@@ -121,7 +119,7 @@ public class MainGame implements Screen {
         		bullet.setSize(20, 20);
         		bullet.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
     		}else if(distance_2 <  Bullet.shooting_distance) {
-    			System.out.println(distance_2);
+    			//System.out.println(distance_2);
     			bullet.setX((fortress2.getX()+64));
         		bullet.setY(fortress2.getY()+64);
         		bullet.setDirection_x(((currentTruck.getX()-135)/(distance_1)));
@@ -130,7 +128,7 @@ public class MainGame implements Screen {
         		bullet.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
     			
     		}else {
-    			System.out.println(distance_2);
+    			//System.out.println(distance_2);
     			bullet.setX((fortress3.getX()+64));
         		bullet.setY(fortress3.getY()+64);
         		bullet.setDirection_x(((currentTruck.getX()-345)/(distance_1)));
@@ -161,29 +159,34 @@ public class MainGame implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         
-        camera.position.set(currentTruck.getX()+256,currentTruck.getY()+256,0);
+        
+        //Ensures viewport edges stay within the bounds of the map
+        float cameraX = Math.max(0.125f*Gdx.graphics.getWidth(), Math.min(currentTruck.getX()+256, 0.875f*Gdx.graphics.getWidth()));
+        float cameraY = Math.max(0.125f*Gdx.graphics.getHeight(), Math.min(currentTruck.getY()+256, 0.875f*Gdx.graphics.getHeight()));
+
+        //System.out.println(currentTruck.getX()+256);
+        //System.out.println(currentTruck.getY()+256);
+        camera.position.set(cameraX, cameraY, 0);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(map,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
-        truck1.update(Gdx.graphics.getDeltaTime());
-		truck2.update(Gdx.graphics.getDeltaTime());
-        truck1.draw(game.batch);
-        truck2.draw(game.batch);
-        fortress1.draw(game.batch);
-        fortress2.draw(game.batch);
-        fortress3.draw(game.batch);
+        for(Entity e : entities) {
+        	e.update(delta);
+        	e.draw(game.batch);
+        }
+        //drop is short for droplet
+        for(Projectile drop : currentTruck.drops) {
+			drop.draw(game.batch);
+		}
         
         for( Bullet bullet : bullets1) {
         	bullet.draw(game.batch);
         }
-       
         
         game.batch.end();
-
-        
-	}
+    }
 	
     
     private void takeInputs() {
@@ -200,7 +203,7 @@ public class MainGame implements Screen {
 			currentTruck.turnRight();
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			currentTruck.takeWater(1);
+			currentTruck.attack();
 		}
 		switchTrucks();
 	}
@@ -210,13 +213,13 @@ public class MainGame implements Screen {
 			currentTruck.setColor(Color.WHITE);
 			currentTruck = truck1;
 			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.5f;
+			camera.zoom = 0.25f;
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_2)) {
 			currentTruck.setColor(Color.WHITE);
 			currentTruck = truck2;
 			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.5f;
+			camera.zoom = 0.25f;
 			
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_0)) {
