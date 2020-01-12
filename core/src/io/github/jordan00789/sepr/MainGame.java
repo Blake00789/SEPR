@@ -47,6 +47,7 @@ public class MainGame implements Screen {
         camera = new OrthographicCamera(); 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        
         entityScale = 0.05f;
         loadTrucks();
         loadFortresses();
@@ -96,9 +97,9 @@ public class MainGame implements Screen {
     }
     
     
-    
-
     public void render(float delta) {
+    	
+    	
     	
     	// shooting code
     	float distance_1=(float) Math.sqrt((currentTruck.getY()+15)*(currentTruck.getY()+15)+(currentTruck.getX()-420)*(currentTruck.getX()-420));
@@ -160,6 +161,8 @@ public class MainGame implements Screen {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         
         
+
+        
         //Ensures viewport edges stay within the bounds of the map
         float cameraX = Math.max(0.125f*Gdx.graphics.getWidth(), Math.min(currentTruck.getX()+256, 0.875f*Gdx.graphics.getWidth()));
         float cameraY = Math.max(0.125f*Gdx.graphics.getHeight(), Math.min(currentTruck.getY()+256, 0.875f*Gdx.graphics.getHeight()));
@@ -171,6 +174,7 @@ public class MainGame implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(map,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         
         for(Entity e : entities) {
         	e.update(delta);
@@ -184,6 +188,8 @@ public class MainGame implements Screen {
         for( Bullet bullet : bullets1) {
         	bullet.draw(game.batch);
         }
+        
+        FiretruckMenu.create();
         
         game.batch.end();
     }
