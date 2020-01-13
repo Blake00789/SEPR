@@ -1,6 +1,8 @@
 package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+
 import java.time.*;
 
 public class Projectile extends Entity implements Moveable{
@@ -19,18 +21,20 @@ public class Projectile extends Entity implements Moveable{
 	 * @param y The initial y-coordinate
 	 * @param direction The direction to travel in (in degrees)
 	 * @param velocity The velocity to travel at
-	 * @param texture The projectile texture
 	 * @param lifeTime The life time of the projectile
+	 * @param texture The projectile texture
 	 */
 	public Projectile(float x, float y, float direction, float velocity, float lifeTime, Texture texture) {
 		super(1, texture);
 		this.setPosition(x, y);
-		this.setScale(0.1f);
+		this.setScale(0.025f);
 		this.direction = direction;
+		setRotation(direction);
 		this.velocity = velocity;
 		this.lifeTime = lifeTime;
-		System.out.println("oof");
 		startTime = Instant.now();
+
+		//System.out.printf("Projectile: x=%f, y=%f, direction=%f, v=%f, lifetime=%f%n", x,y,direction,velocity,lifeTime);
 	}
 
 	@Override
@@ -56,10 +60,10 @@ public class Projectile extends Entity implements Moveable{
 	@Override
 	public void update(float delta) {
 		setPosition((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)),
-				(float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
+				(float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));		
 	}
 	
-	public boolean isDispose() {
+	public boolean isDisposable() {
 		return ((Duration.between(startTime, Instant.now()).getSeconds()) > lifeTime);
 	}
 	

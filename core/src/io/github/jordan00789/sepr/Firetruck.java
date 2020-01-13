@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Firetruck extends Entity implements Attack, Moveable {
 
@@ -19,8 +20,8 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	public ArrayList<Projectile> drops = new ArrayList<Projectile>();
 
 	// These will be used in the attack method
-	// private static int range = 10;
-	private static float flowRate = 10f;
+	private static float range = 2f;
+	private static float flowRate = 40f;
 
 	/**
 	 * Creates a Firetruck sprite using the texture provided, with the specified
@@ -171,13 +172,23 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		if (velocity > maxSpeed || velocity < -maxSpeed) {
 			velocity = maxSpeed;
 		}
-		drops.removeIf(drop -> drop.isDispose());
-		for(Projectile drop : drops) {
-			drop.update(delta);
-		}
+		drops.removeIf(drop -> drop.isDisposable());
+		drops.forEach(drop -> drop.update(delta));
 
 		setPosition((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)),
 				(float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
+	}
+
+	/**
+	 * Overriding the Sprite draw method so water droplets can be drawn too
+	 * 
+	 * @param batch The sprite batch to draw in
+	 */
+	@Override
+	public void draw(Batch batch) {
+		// drop is short for droplet
+		drops.forEach(drop -> drop.draw(batch));
+		super.draw(batch);
 	}
 
 	/**
@@ -189,6 +200,8 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private float speedLimit() {
 		float c = (float) Math.PI / 180;
 		int pixcolour;
+		// Checks either front or back of the truck sprite depending on whether the
+		// truck is moving forwards or backwards
 		if (velocity > 0) {
 			pixcolour = speedMap.getPixel(Math.round(getX() + 256 + ((float) Math.sin(direction * c) * 9)),
 					Gdx.graphics.getHeight() - Math.round(getY() + 256 + ((float) Math.cos(direction * c) * 9)));
@@ -223,6 +236,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		case ("#c0f0f0"):// water 2
 			setVelocity(0f);
 			return 0f;
+		case ("#0"):// off of map
+			setVelocity(0f);
+			return 0f;
 		default:
 			// System.err.println("Unknown colour");
 			return 100f;
@@ -231,10 +247,10 @@ public class Firetruck extends Entity implements Attack, Moveable {
 
 	@Override
 	public void attack() {
-		if (drops.size() < 10) {
-			System.out.println("oof");
+		if (drops.size() < 50) {
 			takeWater(1);
-			Projectile drop = new Projectile(getX()+128, getY()+128, getDirection(), flowRate+velocity, 5f, new Texture("badlogic.jpg"));
+			Projectile drop = new Projectile(getX() + getOriginX()/2, getY() + getOriginY()/2, getDirection(),
+					flowRate + velocity, range, new Texture("drop.png"));
 			drops.add(drop);
 		}
 	}

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -31,12 +32,13 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		game.batch.begin();
-		game.batch.draw(menuImage, 0, 0);
-		game.batch.end();
+		Batch batch = game.batch;
+		batch.begin();
+		batch.draw(menuImage,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.end();
 
 		camera.update();
-		game.batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
 
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 			game.setScreen(new MainGame(game));

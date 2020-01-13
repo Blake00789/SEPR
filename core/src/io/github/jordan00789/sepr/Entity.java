@@ -10,7 +10,7 @@ public class Entity extends Sprite {
 	
 	public Entity( Texture texture) {
 		super(texture);
-		this.health = health;
+		this.health = 1;
 	}
 
 	public Entity(int health, Texture texture) {
@@ -38,6 +38,10 @@ public class Entity extends Sprite {
 
 	public boolean isDestroyed() {
 		return (getHealth() <= 0);
+	}
+	
+	public boolean isAlive() {
+		return (getHealth() > 0);
 	}
 	
 	public void update(float delta) {
