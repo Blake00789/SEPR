@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class MainGame implements Screen {
     final Kroy game;
     OrthographicCamera camera;
-    ArrayList<Bullet> bullets1= new ArrayList<Bullet>();
+    ArrayList<Bullet> bullets= new ArrayList<Bullet>();
     float stateTime;
     float direction;
     int count=0;
@@ -33,7 +33,7 @@ public class MainGame implements Screen {
     Fortress fortress1;
     Fortress fortress2;
     Fortress fortress3;
-    Bullet bullet;
+    Bullet bullet_1, bullet_2,bullet_3,bullet_4,bullet_5,bullet_6,bullet_7,bullet_8;
     Texture map;
 
 
@@ -108,52 +108,94 @@ public class MainGame implements Screen {
     	float distance_3=(float) Math.sqrt((currentTruck.getY()-260)*(currentTruck.getY()-260)+(currentTruck.getX()-345)*(currentTruck.getX()-345));
     	
     	
-    	System.out.println(currentTruck.getX());
-    	System.out.println(currentTruck.getY());
-    	if((distance_1 <  Bullet.shooting_distance | distance_2 <  Bullet.shooting_distance  || distance_3 <  Bullet.shooting_distance ) &&  bullets1.size()< 1) {
-    		bullet= new Bullet(  new Texture("badlogic.jpg"));
+    	//System.out.println(currentTruck.getX());
+    	//System.out.println(currentTruck.getY());
+    	if((distance_1 <  Bullet.shooting_distance | distance_2 <  Bullet.shooting_distance  || distance_3 <  Bullet.shooting_distance ) &&  bullets.size()< 1) {
+    		
     		if(distance_1 <  Bullet.shooting_distance ) {
-    			System.out.println(distance_1);
-    			bullet.setX((fortress1.getX()+64));
-        		bullet.setY(fortress1.getY()+64);
-        		bullet.setDirection_x(((currentTruck.getX()-420)/(distance_1)));
-        	    bullet.setDirection_y(((currentTruck.getY()+20)/(distance_1)));
-        		bullet.setSize(20, 20);
-        		bullet.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+    			bullet_1= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1)), ((currentTruck.getY()+20)/(distance_1)),300);
+    			bullet_2= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*(currentTruck.getX()-420)/(distance_1)), ((currentTruck.getY()+20)/(distance_1)),300);
+    			bullet_3= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1)),(-1)* ((currentTruck.getY()+20)/(distance_1)),300);
+    			bullet_4= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*(currentTruck.getX()-420)/(distance_1)),(-1)* ((currentTruck.getY()+20)/(distance_1)),300);
+    			bullet_5= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), (((currentTruck.getX()-420)/(distance_1))+(float) (0.5)),(float) (0.5) + ((currentTruck.getY()+20)/(distance_1)),300);
+    			bullet_6= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1))-(float) (0.5),  ((currentTruck.getY()+20)/(distance_1))-(float) (0.5),300);
+    			bullet_7= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*((currentTruck.getX()-420)/(distance_1))+(float) (0.5)),(-1)*((float) (0.5) + ((currentTruck.getY()+20)/(distance_1))),300);
+    			bullet_8= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*((currentTruck.getX()-420)/(distance_1))-(float) (0.5)),(-1)* ( ((currentTruck.getY()+20)/(distance_1))-(float) (0.5)),300);
+        		bullet_1.setSize(20, 20);
+        		bullet_1.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_2.setSize(20, 20);
+        		bullet_2.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_3.setSize(20, 20);
+        		bullet_3.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_4.setSize(20, 20);
+        		bullet_4.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_5.setSize(20, 20);
+        		bullet_5.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_6.setSize(20, 20);
+        		bullet_6.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_7.setSize(20, 20);
+        		bullet_7.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
+        		bullet_8.setSize(20, 20);
+        		bullet_8.setOrigin((fortress1.getX()+64), (fortress1.getY()+64));
+        		bullets.add(bullet_1);
+        		bullets.add(bullet_2);
+        		bullets.add(bullet_3);
+        		bullets.add(bullet_4);
+        		bullets.add(bullet_5);
+        		bullets.add(bullet_6);
+        		bullets.add(bullet_7);
+        		bullets.add(bullet_8);
+        		
+        		
     		}else if(distance_2 <  Bullet.shooting_distance) {
-    			System.out.println(distance_2);
-    			bullet.setX((fortress2.getX()+64));
-        		bullet.setY(fortress2.getY()+64);
-        		bullet.setDirection_x(((currentTruck.getX()-135)/(distance_1)));
-        	    bullet.setDirection_y(((currentTruck.getY()-178)/(distance_1)));
-        		bullet.setSize(20, 20);
-        		bullet.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
+    			bullet_1= new Bullet( (fortress2.getX()+64),(fortress2.getY()+64), new Texture("badlogic.jpg"),((currentTruck.getX()-135)/(distance_1)),((currentTruck.getY()-178)/(distance_1)),1000);
+    			bullet_2= new Bullet((fortress2.getX()+64),(fortress2.getY()+64),  new Texture("badlogic.jpg"), ((currentTruck.getX()-135)/(distance_1))+(float) (0.1), ((currentTruck.getY()-178)/(distance_1))+(float) (0.1),1000);
+    			bullet_3= new Bullet( (fortress2.getX()+64),(fortress2.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-135)/(distance_1))-(float) (0.1), ((currentTruck.getY()-178)/(distance_1))-(float) (0.1),1000);
+    		
+        		bullet_1.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
+        		bullet_3.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
+        		bullet_2.setOrigin((fortress2.getX()+64), (fortress2.getY()+64)); 
+       
+        		bullet_1.setSize(20, 20);
+        		bullet_2.setSize(20, 20);        		
+        		bullet_3.setSize(20, 20);
+        		bullets.add(bullet_1);
+        		bullets.add(bullet_2);
+        		bullets.add(bullet_3);
     			
     		}else {
+    			bullet_1= new Bullet( (fortress3.getX()+64),(fortress3.getY()+64), new Texture("badlogic.jpg"),((currentTruck.getX()-345)/(distance_1)),((currentTruck.getY()-260)/(distance_1)),600);
     			System.out.println(distance_2);
-    			bullet.setX((fortress3.getX()+64));
-        		bullet.setY(fortress3.getY()+64);
-        		bullet.setDirection_x(((currentTruck.getX()-345)/(distance_1)));
-        	    bullet.setDirection_y(((currentTruck.getY()-260)/(distance_1)));
-        		bullet.setSize(20, 20);
-        		bullet.setOrigin((fortress3.getX()+64), (fortress3.getY()+64));
+    			bullet_1.setX((fortress3.getX()+64));
+        		bullet_1.setY(fortress3.getY()+64);
+        		bullet_1.setSize(20, 20);
+        		bullet_1.setOrigin((fortress3.getX()+64), (fortress3.getY()+64));
+        		bullets.add(bullet_1);
     		}
     		   		
-    		bullets1.add(bullet);
+    		
     
     	}
     		    
 	    ArrayList<Bullet> bulletToRemove= new ArrayList<Bullet>();
 	
-	    if(!(bullets1.isEmpty() )) {	    	
-			bullet.update(delta);
-			
-			if(bullet.remove) {
-				bulletToRemove.add(bullet);
+	    if(!(bullets.isEmpty() )) {
+	    	if((currentTruck.getX() > bullet_1.getX()-3 && currentTruck.getX()< bullet_1.getX()+3 && currentTruck.getX() > bullet_1.getY()-3 && currentTruck.getY()< bullet_1.getY()+3)) {
+	    		bullet_1.setRemove(true);
+	    	}
+	    	
+			for( Bullet bullet : bullets) {
+				bullet.update(delta);
+				if(bullet.isRemove() ) {
+					bulletToRemove.add(bullet);
+				}
 			}
+			
 	    }
+	    
+	    System.out.println(bullets.size());
 
-	    bullets1.removeAll(bulletToRemove);    	
+	    bullets.removeAll(bulletToRemove);    	
     	stateTime += delta;
     	
     	takeInputs();
@@ -175,7 +217,7 @@ public class MainGame implements Screen {
         fortress2.draw(game.batch);
         fortress3.draw(game.batch);
         
-        for( Bullet bullet : bullets1) {
+        for( Bullet bullet : bullets) {
         	bullet.draw(game.batch);
         }
        

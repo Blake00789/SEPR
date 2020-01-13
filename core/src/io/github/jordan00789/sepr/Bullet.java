@@ -9,12 +9,22 @@ public class Bullet extends Entity implements Moveable, Attack{
 	
 	public static final double shooting_distance = 120.0;
 	
-	public static final int SPEED = 300;
-	
-	private float direction = 0;
+	private int SPEED = 600;
 	
 	private float direction_x, direction_y; 
-	public boolean remove= false;
+	
+	private boolean remove= false;
+	float x1;
+	float y1;
+	
+	public int getSpeed() {
+		return SPEED;
+	}
+	
+	
+	public void setSpeed(int speed) {
+		this.SPEED=speed;
+	}
 	
 	public float getDirection_x() {
 		return direction_x;
@@ -34,17 +44,28 @@ public class Bullet extends Entity implements Moveable, Attack{
 		
 	}
 	
-	public Bullet(Texture texture, float direction_x,float  direction_y) {
+	public boolean isRemove() {
+		return remove;
+	}
+
+	public void setRemove(boolean remove) {
+		this.remove = remove;
+	}
+	
+	public Bullet(float x, float y ,Texture texture, float direction_x,float  direction_y, int speed) {
 		super(texture);
-		this.direction_x=direction_x;
-		this.direction_y=direction_y;
+		setDirection_x(direction_x);
+		setDirection_y(direction_y);
+		setSpeed(speed);
+		setX(x);
+		setY(y);
 	
 	}
 	
 	public Bullet( Texture texture) {
 		super(texture);	
-			}
-
+		}
+	
 	
 	public void update(float deltaTime) {
 		
@@ -52,7 +73,7 @@ public class Bullet extends Entity implements Moveable, Attack{
 		setY((float) (getY() + (getDirection_y() * deltaTime * SPEED)));
 		
 		if( getY() > Gdx.graphics.getHeight() || getY() < 0 || getX() < 0 || getX() > Gdx.graphics.getWidth()) {
-			remove=true;
+			setRemove(true);
 		}
 	}
 	
@@ -65,5 +86,7 @@ public class Bullet extends Entity implements Moveable, Attack{
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }
