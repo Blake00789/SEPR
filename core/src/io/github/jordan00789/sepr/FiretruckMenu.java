@@ -34,11 +34,12 @@ public class FiretruckMenu {
 		
 		table = new Table();
 		table.setWidth(stage.getWidth());
-		//things added to the table are added to the right and at the top
-		table.align(Align.right|Align.top);
+		//things added to the table are added to the left and at the top
+		table.align(Align.left|Align.top);
 		table.setPosition(0, (Gdx.graphics.getHeight()/2));
 
-		texture1 = new Texture("badlogic.jpg");
+		texture1 = new Texture(Gdx.files.internal("stationUI.png"));
+		
 		textureRegion1 = new TextureRegion(texture1);
 		textureRegionDrawable1 = new TextureRegionDrawable(textureRegion1);
 		firetruckUI1 = new ImageButton(textureRegionDrawable1);
@@ -48,7 +49,8 @@ public class FiretruckMenu {
 		firetruckUI1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.log("Button clicked", "clicked");
+//				firetruckUI1.setVisible(false);
+				Gdx.app.log("Button clicked", "clicked");			
 				event.stop();
 			}
 		});
@@ -59,7 +61,7 @@ public class FiretruckMenu {
 		
 //		table.add(stack);
 		stage.addActor(table);
-	
+		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 
