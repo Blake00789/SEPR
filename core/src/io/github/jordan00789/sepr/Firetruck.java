@@ -15,11 +15,11 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private float deceleration = 0.5f;
 	private float direction = 0;
 	private float velocity = 0;
-	private Pixmap map = new Pixmap(Gdx.files.internal("map.png"));
-	private Pixmap speedMap;
+	private Pixmap speedMap = MainGame.speedMap;
 	public ArrayList<Projectile> drops = new ArrayList<Projectile>();
 	private static float range = 2f;
 	private static float flowRate = 40f;
+	private float c = (float) Math.PI / 180;
 
 	/**
 	 * Creates a Firetruck sprite using the texture provided, with the specified
@@ -32,9 +32,6 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	public Firetruck(int health, int maxWater, Texture texture) {
 		super(health, texture);
 		this.maxWater = water = maxWater;
-		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), map.getFormat());
-		speedMap.drawPixmap(map, 0, 0, map.getWidth(), map.getHeight(), 0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
 	}
 
 	/** @return The truck's current amount of water. */
@@ -107,7 +104,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		return velocity;
 	}
 
-	/** 
+	/**
 	 * Turns the truck left.
 	 */
 	@Override
@@ -181,7 +178,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 		setRotation(-direction);
 		float maxSpeed = speedLimit();
-		//Checks the truck isn't breaking the speed limit.
+		// Checks the truck isn't breaking the speed limit.
 		if (velocity > maxSpeed || velocity < -maxSpeed) {
 			velocity = maxSpeed;
 		}
@@ -211,16 +208,17 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	 * 
 	 */
 	private float speedLimit() {
-		float c = (float) Math.PI / 180;
 		int pixcolour;
 		// Checks either front or back of the truck sprite depending on whether the
 		// truck is moving forwards or backwards
 		if (velocity > 0) {
-			pixcolour = speedMap.getPixel(Math.round(getX() + 256 + ((float) Math.sin(direction * c) * 9)),
-					Gdx.graphics.getHeight() - Math.round(getY() + 256 + ((float) Math.cos(direction * c) * 9)));
+			pixcolour = speedMap.getPixel(Math.round(getX() + getOriginX() + ((float) Math.sin(direction * c) * 9)),
+					Gdx.graphics.getHeight()
+							- Math.round(getY() + getOriginY() + ((float) Math.cos(direction * c) * 9)));
 		} else {
-			pixcolour = speedMap.getPixel(Math.round(getX() + 256 - ((float) Math.sin(direction * c) * 9)),
-					Gdx.graphics.getHeight() - Math.round(getY() + 256 - ((float) Math.cos(direction * c) * 9)));
+			pixcolour = speedMap.getPixel(Math.round(getX() + getOriginX() - ((float) Math.sin(direction * c) * 9)),
+					Gdx.graphics.getHeight()
+							- Math.round(getY() + getOriginY() - ((float) Math.cos(direction * c) * 9)));
 		}
 		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
@@ -265,7 +263,8 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	public void attack() {
 		if (drops.size() < 50) {
 			takeWater(1);
-			Projectile drop = new Projectile(getX() + getOriginX() / 2, getY() + getOriginY() / 2, getDirection(),
+			Projectile drop = new Projectile((getX() + getOriginX() / 2) + ((float) Math.sin(direction * c) * 10),
+					(getY() + getOriginY() / 2) + ((float) Math.cos(direction * c) * 10), getDirection(),
 					flowRate + velocity, range, new Texture("drop.png"));
 			drops.add(drop);
 		}
