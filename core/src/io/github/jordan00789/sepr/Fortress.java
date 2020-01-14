@@ -7,19 +7,21 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class Fortress extends Entity implements Attack {
 
 	public ArrayList<Projectile> goos = new ArrayList<Projectile>();
+	private float piConstant = (float) Math.PI / 180;
 	int fortress_number;
-	boolean able_to_attak=true;
+	boolean able_to_attack = true;
 
 	/**
 	 * Creates a Fortress sprite using the texture provided, with the specified
 	 * amount of health.
 	 * 
-	 * @param health The amount of health the Fortress has
+	 * @param health  The amount of health the Fortress has
 	 * @param texture The texture given to the Fortress sprite
+	 * @param n       The number that the fortress is
 	 */
-	public Fortress(int health, Texture texture,int n) {
+	public Fortress(int health, Texture texture, int n) {
 		super(health, texture);
-		this.fortress_number=n;
+		this.fortress_number = n;
 	}
 
 	/**
@@ -27,26 +29,26 @@ public class Fortress extends Entity implements Attack {
 	 * 
 	 * @param e The entity to aim at.
 	 */
-	public void attack(Entity e,int n) {
+	public void attack(Entity e, int n) {
 		if (e != null) {
-			if (able_to_attak) {
-				Projectile goo = new Projectile(getX() + 384, getY() + 384, directionTo(e)+n, 20f, 5f,
-						new Texture("goo.png"));
+			if (able_to_attack) {
+				Projectile goo = new Projectile((getX() + 384) + ((float) Math.sin(directionTo(e) * piConstant) * 10),
+						(getY() + 384 + ((float) Math.cos(directionTo(e) * piConstant) * 10)), directionTo(e) + n, 50f,
+						5f, new Texture("goo.png"));
 				goos.add(goo);
-				
+
 			}
 		} else {
 			System.err.println("Fortresses must target an entity");
 		}
 	}
-	
 
 	/**
 	 * A method to catch any attack method calls that aren't aimed at an entity.
 	 */
 	@Override
 	public void attack() {
-		attack(null,0);
+		attack(null, 0);
 	}
 
 	/**
@@ -56,42 +58,33 @@ public class Fortress extends Entity implements Attack {
 	 */
 	@Override
 	public void update(float delta) {
-		
+
 		if (distanceTo(MainGame.currentTruck) < 100f) {
 			// choose different attack method for each fortress
-			switch(fortress_number) {
-				case 1:
-					attack(MainGame.currentTruck,0);
-					attack(MainGame.currentTruck,30);
-					attack(MainGame.currentTruck,-30);					
-					break;
-				case 2:
-					attack(MainGame.currentTruck,0);
-					break;
-				case 3:
-					attack(MainGame.currentTruck,0);
-					attack(MainGame.currentTruck,45);
-					attack(MainGame.currentTruck,-45);
-					attack(MainGame.currentTruck,90);
-					attack(MainGame.currentTruck,-90);
-					attack(MainGame.currentTruck,135);
-					attack(MainGame.currentTruck,-135);
-					attack(MainGame.currentTruck,180);
-					break;
-				
+			switch (fortress_number) {
+			case 1:
+				attack(MainGame.currentTruck, 0);
+				attack(MainGame.currentTruck, 30);
+				attack(MainGame.currentTruck, -30);
+				break;
+			case 2:
+				attack(MainGame.currentTruck, 0);
+				break;
+			case 3:
+				for (int i = 0; i <= 360; i += 45) {
+					attack(MainGame.currentTruck, i);
+				}
+				break;
 			}
-			able_to_attak=false;
+			able_to_attack = false;
 		}
-		
 		goos.removeIf(goo -> goo.isDisposable());
 		goos.forEach(goo -> goo.update(delta));
-		
-		if ( goos.size()< 1) {
-			able_to_attak=true;
+
+		if (goos.size() < 1) {
+			able_to_attack = true;
 		}
 	}
-		
-	
 
 	/**
 	 * Overrides the Sprite draw method so goo projectiles can be drawn too.
