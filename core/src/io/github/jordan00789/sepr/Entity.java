@@ -7,11 +7,6 @@ public class Entity extends Sprite {
 
 	private int health;
 	
-	public Entity( Texture texture) {
-		super(texture);
-		this.health = health;
-	}
-
 	/**
 	 * Creates a new entity with the specified texture and a default health of 1.
 	 * 
