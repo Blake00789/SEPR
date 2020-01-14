@@ -1,234 +1,161 @@
 package io.github.jordan00789.sepr;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-//import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import java.awt.*;
-import java.util.ArrayList;
 
 public class MainGame implements Screen {
-    final Kroy game;
-    OrthographicCamera camera;
-    ArrayList<Bullet> bullets= new ArrayList<Bullet>();
-    float stateTime;
-    float direction;
-    int count=0;
-	
-    
-    
-    //Entities
-    Firetruck camTruck;
-    Firetruck truck1;
+	final Kroy game;
+	OrthographicCamera camera;
+	float entityScale;
+
+	// Entities
+	Firetruck camTruck;
+	Firetruck truck1;
 	Firetruck truck2;
-	Firetruck currentTruck;
-    Fortress fortress1;
-    Fortress fortress2;
-    Fortress fortress3;
-    Bullet bullet_1, bullet_2,bullet_3,bullet_4,bullet_5,bullet_6,bullet_7,bullet_8;
-    Texture map;
+	public static Firetruck currentTruck;
+	Fortress fortress1;
+	Fortress fortress2;
+	Fortress fortress3;
+	Texture map;
+	public static Pixmap speedMap;
+	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
+	public MainGame(final Kroy game) {
+		this.game = game;
 
-    public MainGame(final Kroy game) {
-        this.game = game;
+		// This is a pixmap used to get the pixel RGBA values at specified coordinates.
+		Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
+		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), pmap.getFormat());
+		speedMap.drawPixmap(pmap, 0, 0, pmap.getWidth(), pmap.getHeight(), 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
 
-        camera = new OrthographicCamera(); 
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        /*
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("kroyphysics.json"));
-        BodyDef bd = new BodyDef();
-        bd.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(bd);
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        FixtureDef fd = new FixtureDef();
-        fd.density = 1;
-        fd.friction = 0.5f;
-        fd.restitution = 0.3f;
-        loader.attachFixture(body, "firetruck", fd, 1.0f);
-        body.setUserData(truck);
-        */
-        
-        loadTrucks();
-        loadFortresses();
-        //System.out.println(camera.viewportWidth + "  " + camera.viewportHeight);
-        //System.out.println(Gdx.graphics.getWidth() + "  " + Gdx.graphics.getHeight());
-        
-        map = new Texture("map.png");
-    }
-    
-    private void loadFortresses() {
-    	int width = Gdx.graphics.getWidth()-128;
-    	int height = Gdx.graphics.getHeight()-128;
-    	fortress1 = new Fortress(100, new Texture("ctower.png"), (0.53f*width), 0.26f*height);
-    	fortress1.setSize(128, 128);
-    	
-        fortress2 = new Fortress(100, new Texture("station.png"), (0.29f*width), (0.66f*height));
-        fortress2.setSize(128, 128);
-        
-        fortress3 = new Fortress(100, new Texture("minster.png"), (0.47f*width), (0.82f*height));
-        fortress3.setSize(128, 128);
-    }
-    
-    private void loadTrucks() {
-    	Texture img = new Texture("firetruck.png");
-		
-		truck1 = new Firetruck(2500, 5, img);
-		truck1.setScale(0.05f);
-		truck1.setOrigin(256, 256);
-		
-		truck2 = new Firetruck(200, 100, img);
-		truck2.setScale(0.05f);
-		truck2.setOrigin(256, 256);
-		
-		camTruck = new Firetruck(1,1, img);
-		camTruck.setX((Gdx.graphics.getWidth()/2)-256);
-		camTruck.setY((Gdx.graphics.getHeight()/2)-256);
-		
-		currentTruck = truck1;
-		currentTruck.setColor(Color.RED);
-		camera.zoom = 0.5f;
-    }
-    
-    
-    
+		entityScale = 0.05f;
+		loadTrucks();
+		loadFortresses();
 
-    public void render(float delta) {
-    	
-    	// shooting code
-    	float distance_1=(float) Math.sqrt((currentTruck.getY()+15)*(currentTruck.getY()+15)+(currentTruck.getX()-420)*(currentTruck.getX()-420));
-    	float distance_2=(float) Math.sqrt((currentTruck.getY()-178)*(currentTruck.getY()-178)+(currentTruck.getX()-135)*(currentTruck.getX()-135));
-    	float distance_3=(float) Math.sqrt((currentTruck.getY()-260)*(currentTruck.getY()-260)+(currentTruck.getX()-345)*(currentTruck.getX()-345));
-    	
-    	
-    	//System.out.println(currentTruck.getX());
-    	//System.out.println(currentTruck.getY());
-    	if((distance_1 <  Bullet.shooting_distance | distance_2 <  Bullet.shooting_distance  || distance_3 <  Bullet.shooting_distance ) &&  bullets.size()< 1) {
-    		
-    		if(distance_1 <  Bullet.shooting_distance ) {
-    			bullet_1= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1)), ((currentTruck.getY()+20)/(distance_1)),300);
-    			bullet_2= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*(currentTruck.getX()-420)/(distance_1)), ((currentTruck.getY()+20)/(distance_1)),300);
-    			bullet_3= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1)),(-1)* ((currentTruck.getY()+20)/(distance_1)),300);
-    			bullet_4= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*(currentTruck.getX()-420)/(distance_1)),(-1)* ((currentTruck.getY()+20)/(distance_1)),300);
-    			bullet_5= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), (((currentTruck.getX()-420)/(distance_1))+(float) (0.5)),(float) (0.5) + ((currentTruck.getY()+20)/(distance_1)),300);
-    			bullet_6= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-420)/(distance_1))-(float) (0.5),  ((currentTruck.getY()+20)/(distance_1))-(float) (0.5),300);
-    			bullet_7= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*((currentTruck.getX()-420)/(distance_1))+(float) (0.5)),(-1)*((float) (0.5) + ((currentTruck.getY()+20)/(distance_1))),300);
-    			bullet_8= new Bullet( (fortress1.getX()+64),(fortress1.getY()+64), new Texture("badlogic.jpg"), ((-1)*((currentTruck.getX()-420)/(distance_1))-(float) (0.5)),(-1)* ( ((currentTruck.getY()+20)/(distance_1))-(float) (0.5)),300);
-        		bullet_1.setSize(20, 20);
-        		bullet_1.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_2.setSize(20, 20);
-        		bullet_2.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_3.setSize(20, 20);
-        		bullet_3.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_4.setSize(20, 20);
-        		bullet_4.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_5.setSize(20, 20);
-        		bullet_5.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_6.setSize(20, 20);
-        		bullet_6.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_7.setSize(20, 20);
-        		bullet_7.setOrigin((fortress1.getX()+64), (fortress1.getY()+64)); 
-        		bullet_8.setSize(20, 20);
-        		bullet_8.setOrigin((fortress1.getX()+64), (fortress1.getY()+64));
-        		bullets.add(bullet_1);
-        		bullets.add(bullet_2);
-        		bullets.add(bullet_3);
-        		bullets.add(bullet_4);
-        		bullets.add(bullet_5);
-        		bullets.add(bullet_6);
-        		bullets.add(bullet_7);
-        		bullets.add(bullet_8);
-        		
-        		
-    		}else if(distance_2 <  Bullet.shooting_distance) {
-    			bullet_1= new Bullet( (fortress2.getX()+64),(fortress2.getY()+64), new Texture("badlogic.jpg"),((currentTruck.getX()-135)/(distance_1)),((currentTruck.getY()-178)/(distance_1)),1000);
-    			bullet_2= new Bullet((fortress2.getX()+64),(fortress2.getY()+64),  new Texture("badlogic.jpg"), ((currentTruck.getX()-135)/(distance_1))+(float) (0.1), ((currentTruck.getY()-178)/(distance_1))+(float) (0.1),1000);
-    			bullet_3= new Bullet( (fortress2.getX()+64),(fortress2.getY()+64), new Texture("badlogic.jpg"), ((currentTruck.getX()-135)/(distance_1))-(float) (0.1), ((currentTruck.getY()-178)/(distance_1))-(float) (0.1),1000);
-    		
-        		bullet_1.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
-        		bullet_3.setOrigin((fortress2.getX()+64), (fortress2.getY()+64));
-        		bullet_2.setOrigin((fortress2.getX()+64), (fortress2.getY()+64)); 
-       
-        		bullet_1.setSize(20, 20);
-        		bullet_2.setSize(20, 20);        		
-        		bullet_3.setSize(20, 20);
-        		bullets.add(bullet_1);
-        		bullets.add(bullet_2);
-        		bullets.add(bullet_3);
-    			
-    		}else {
-    			bullet_1= new Bullet( (fortress3.getX()+64),(fortress3.getY()+64), new Texture("badlogic.jpg"),((currentTruck.getX()-345)/(distance_1)),((currentTruck.getY()-260)/(distance_1)),600);
-    			System.out.println(distance_2);
-    			bullet_1.setX((fortress3.getX()+64));
-        		bullet_1.setY(fortress3.getY()+64);
-        		bullet_1.setSize(20, 20);
-        		bullet_1.setOrigin((fortress3.getX()+64), (fortress3.getY()+64));
-        		bullets.add(bullet_1);
-    		}
-    		   		
-    		
-    
-    	}
-    		    
-	    ArrayList<Bullet> bulletToRemove= new ArrayList<Bullet>();
-	
-	    if(!(bullets.isEmpty() )) {
-	    	if((currentTruck.getX() > bullet_1.getX()-3 && currentTruck.getX()< bullet_1.getX()+3 && currentTruck.getX() > bullet_1.getY()-3 && currentTruck.getY()< bullet_1.getY()+3)) {
-	    		bullet_1.setRemove(true);
-	    	}
-	    	
-			for( Bullet bullet : bullets) {
-				bullet.update(delta);
-				if(bullet.isRemove() ) {
-					bulletToRemove.add(bullet);
-				}
-			}
-			
-	    }
-	    
-	    System.out.println(bullets.size());
-
-	    bullets.removeAll(bulletToRemove);    	
-    	stateTime += delta;
-    	
-    	takeInputs();
-    	
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        
-        camera.position.set(currentTruck.getX()+256,currentTruck.getY()+256,0);
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.draw(map,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        
-        truck1.update(Gdx.graphics.getDeltaTime());
-		truck2.update(Gdx.graphics.getDeltaTime());
-        truck1.draw(game.batch);
-        truck2.draw(game.batch);
-        fortress1.draw(game.batch);
-        fortress2.draw(game.batch);
-        fortress3.draw(game.batch);
-        
-        for( Bullet bullet : bullets) {
-        	bullet.draw(game.batch);
-        }
-       
-        
-        game.batch.end();
-
-        
+		map = new Texture("map.png");
 	}
-	
-    
-    private void takeInputs() {
+
+	public static String getPixelColour(float x, float y) {
+		int pixcolour;
+		pixcolour = MainGame.speedMap.getPixel(Math.round(x), Gdx.graphics.getHeight() - Math.round(y));
+		String col = "#" + Integer.toHexString(pixcolour & 15790320);
+		if (col.length() > 2) {
+			col = col.substring(0, 7);
+		}
+		return col;
+	}
+
+	/**
+	 * Separate method to load the fortresses.
+	 */
+	private void loadFortresses() {
+		// Screen width and height.
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+
+		// We used relative coordinates so that multiple resolutions are supported.
+		fortress1 = new Fortress(100, new Texture("ctower.png"), 1);
+		initEntity(fortress1, (0.53f * width), (0.26f * height));
+
+		fortress2 = new Fortress(100, new Texture("station.png"), 2);
+		initEntity(fortress2, (0.29f * width), (0.66f * height));
+
+		fortress3 = new Fortress(100, new Texture("minster.png"), 3);
+		initEntity(fortress3, (0.47f * width), (0.82f * height));
+	}
+
+	/**
+	 * Separate method to load the trucks.
+	 */
+	private void loadTrucks() {
+		truck1 = new Firetruck(50, 5, new Texture("truck1.png"));
+		initEntity(truck1, 50, 100);
+
+		truck2 = new Firetruck(200, 100, new Texture("truck2.png"));
+		initEntity(truck2, 90, 150);
+
+		// camTruck is located at the centre of the screen. It is not rendered, but used
+		// to switch to the full map view.
+		camTruck = new Firetruck(1, 1, new Texture("badlogic.jpg"));
+		camTruck.setX((Gdx.graphics.getWidth() / 2) - 256);
+		camTruck.setY((Gdx.graphics.getHeight() / 2) - 256);
+
+		changeToTruck(truck1);
+	}
+
+	/**
+	 * Initialises the entity to the right size and position, and adds it to the
+	 * entity array.
+	 * 
+	 * @param e The entity to initialise
+	 * @param x The x-coordinate of the entity
+	 * @param y The y-coordinate of the entity
+	 */
+	private void initEntity(Entity e, float x, float y) {
+		e.setScale(entityScale);
+		e.setOriginCenter();
+		e.setPosition(x - e.getOriginX(), y - e.getOriginY());
+		entities.add(e);
+	}
+
+	/**
+	 * The main render method, runs 60 times a second (The frame rate of the game).
+	 *
+	 * @param delta The current delta time
+	 */
+	public void render(float delta) {
+
+		takeInputs();
+
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+
+		// Ensures viewport edges stay within the bounds of the map.
+		float cameraX = Math.max(0.125f * Gdx.graphics.getWidth(),
+				Math.min(currentTruck.getX() + 256, 0.875f * Gdx.graphics.getWidth()));
+		float cameraY = Math.max(0.125f * Gdx.graphics.getHeight(),
+				Math.min(currentTruck.getY() + 256, 0.875f * Gdx.graphics.getHeight()));
+
+		Batch batch = game.batch;
+		camera.position.set(cameraX, cameraY, 0);
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		batch.draw(map, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		// Updates and draws each entity in the entities array.
+		entities.forEach(e -> {
+			e.update(delta);
+			e.draw(batch);
+			// Moves the entity to the screen centre when it is destroyed.
+			if (e.isDestroyed()) {
+				e.setPosition((Gdx.graphics.getWidth() / 2) - e.getOriginX(),
+						(Gdx.graphics.getHeight() / 2) - e.getOriginY());
+			}
+		});
+		entities.removeIf(e -> e.isDestroyed());
+
+		batch.end();
+	}
+
+	/**
+	 * Check for inputs to move the current truck.
+	 */
+	private void takeInputs() {
+
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			currentTruck.goForward();
 		}
@@ -242,55 +169,65 @@ public class MainGame implements Screen {
 			currentTruck.turnRight();
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			currentTruck.takeWater(1);
+			currentTruck.attack();
 		}
 		switchTrucks();
 	}
 
+	/**
+	 * Check for inputs to switch between trucks.
+	 */
 	private void switchTrucks() {
 		if (Gdx.input.isKeyPressed(Keys.NUM_1)) {
-			currentTruck.setColor(Color.WHITE);
-			currentTruck = truck1;
-			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.5f;
+			changeToTruck(truck1);
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_2)) {
-			currentTruck.setColor(Color.WHITE);
-			currentTruck = truck2;
-			currentTruck.setColor(Color.RED);
-			camera.zoom = 0.5f;
-			
+			changeToTruck(truck2);
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_0)) {
 			currentTruck.setColor(Color.WHITE);
 			currentTruck = camTruck;
 			camera.zoom = 1f;
 		}
+
 	}
-    
 
-    @Override
-    public void resize(int width, int height) {
-    }
+	/**
+	 * Switches the camera to the specified truck.
+	 * 
+	 * @param t The truck to switch to
+	 */
+	private void changeToTruck(Firetruck t) {
+		if (currentTruck != null) {
+			currentTruck.setColor(Color.WHITE);
+		}
+		currentTruck = t;
+		currentTruck.setColor(Color.RED);
+		camera.zoom = 0.25f;
+	}
 
-    @Override
-    public void show() {
-    }
+	@Override
+	public void resize(int width, int height) {
+	}
 
-    @Override
-    public void hide() {
-    }
+	@Override
+	public void show() {
+	}
 
-    @Override
-    public void pause() {
-    }
+	@Override
+	public void hide() {
+	}
 
-    @Override
-    public void resume() {
-    }
+	@Override
+	public void pause() {
+	}
 
-    @Override
-    public void dispose() {
-    }
-    
+	@Override
+	public void resume() {
+	}
+
+	@Override
+	public void dispose() {
+	}
+
 }
