@@ -18,8 +18,6 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private Pixmap map = new Pixmap(Gdx.files.internal("map.png"));
 	private Pixmap speedMap;
 	public ArrayList<Projectile> drops = new ArrayList<Projectile>();
-
-	// These will be used in the attack method
 	private static float range = 2f;
 	private static float flowRate = 40f;
 
@@ -27,9 +25,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	 * Creates a Firetruck sprite using the texture provided, with the specified
 	 * amounts of health and water.
 	 * 
-	 * @param health   The amount of health the truck has.
-	 * @param maxWater The maximum amount of water in the truck.
-	 * @param texture  The texture given to the Firetruck sprite.
+	 * @param health   The amount of health the truck has
+	 * @param maxWater The maximum amount of water in the truck
+	 * @param texture  The texture given to the Firetruck sprite
 	 */
 	public Firetruck(int health, int maxWater, Texture texture) {
 		super(health, texture);
@@ -47,7 +45,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	/**
 	 * Sets the amount of water in the truck if the amount is valid.
 	 * 
-	 * @param amount The amount that the water variable is set to.
+	 * @param amount The amount that the water variable is set to
 	 */
 	private void setWater(int amount) {
 		if (amount <= maxWater && amount > 0) {
@@ -58,7 +56,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	/**
 	 * Removes the specified amount of water from the truck.
 	 * 
-	 * @param amount The amount of water removed from the truck.
+	 * @param amount The amount of water removed from the truck
 	 */
 	public void takeWater(int amount) {
 		if (amount <= water && amount > 0) {
@@ -76,15 +74,17 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	/**
 	 * Sets the trucks direction.
 	 * 
-	 * @param direction The value in degrees the truck's direction is set to.
-	 * @throws RuntimeException If the value is invalid, a runtime exception is
-	 *                          thrown.
+	 * @param direction The value in degrees the truck's direction is set to
 	 */
 	private void setDirection(float direction) {
 		this.direction = direction;
 	}
 
-	/** @return The truck's current direction. */
+	/**
+	 * Returns the truck's current direction.
+	 * 
+	 * @return The truck's current direction
+	 */
 	public float getDirection() {
 		return direction;
 	}
@@ -92,18 +92,24 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	/**
 	 * Sets the truck's velocity.
 	 * 
-	 * @param velocity The value the velocity is set to.
+	 * @param velocity The value the velocity is set to
 	 */
 	private void setVelocity(float velocity) {
 		this.velocity = velocity;
 	}
 
-	/** @return The truck's current velocity. */
+	/**
+	 * Returns the truck's current velocity.
+	 * 
+	 * @return The truck's current velocity
+	 */
 	public float getVelocity() {
 		return velocity;
 	}
 
-	/** Turns the truck left. */
+	/** 
+	 * Turns the truck left.
+	 */
 	@Override
 	public void turnLeft() {
 		if (getDirection() <= 0) {
@@ -113,7 +119,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 	}
 
-	/** Turns the truck right. */
+	/**
+	 * Turns the truck right.
+	 */
 	@Override
 	public void turnRight() {
 		if (getDirection() >= 360) {
@@ -126,7 +134,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	/**
 	 * Calculates the current turning radius of the truck.
 	 * 
-	 * @return Turning speed.
+	 * @return Turning speed
 	 */
 	private float getTurnSpeed() {
 		if (velocity > 50f) {
@@ -136,7 +144,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 	}
 
-	/** Moves the truck forward. */
+	/**
+	 * Moves the truck forward.
+	 */
 	@Override
 	public void goForward() {
 		if (velocity < speedLimit()) {
@@ -144,7 +154,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 	}
 
-	/** Moves the truck backward. */
+	/**
+	 * Moves the truck backward.
+	 */
 	@Override
 	public void goBackward() {
 		if (velocity > -speedLimit()) {
@@ -153,10 +165,10 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	}
 
 	/**
-	 * Updates the truck's position and rotation.
+	 * Updates the position and rotation of the truck and it's corresponding water
+	 * droplets.
 	 * 
-	 * @param delta    The current delta time.
-	 * @param maxspeed The maximum speed the truck can reach.
+	 * @param delta The current delta time
 	 */
 	@Override
 	public void update(float delta) {
@@ -169,6 +181,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 		setRotation(-direction);
 		float maxSpeed = speedLimit();
+		//Checks the truck isn't breaking the speed limit.
 		if (velocity > maxSpeed || velocity < -maxSpeed) {
 			velocity = maxSpeed;
 		}
@@ -180,7 +193,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	}
 
 	/**
-	 * Overriding the Sprite draw method so water droplets can be drawn too
+	 * Overrides the Sprite draw method so water droplets can be drawn too
 	 * 
 	 * @param batch The sprite batch to draw in
 	 */
@@ -192,9 +205,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	}
 
 	/**
-	 * Calculates the truck's max speed and returns it.
+	 * Calculates the truck's maximum speed and returns it.
 	 * 
-	 * @return Speed limit.
+	 * @return Speed limit
 	 * 
 	 */
 	private float speedLimit() {
@@ -245,11 +258,14 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		}
 	}
 
+	/**
+	 * Creates a new water droplet and launches it from the truck's position
+	 */
 	@Override
 	public void attack() {
 		if (drops.size() < 50) {
 			takeWater(1);
-			Projectile drop = new Projectile(getX() + getOriginX()/2, getY() + getOriginY()/2, getDirection(),
+			Projectile drop = new Projectile(getX() + getOriginX() / 2, getY() + getOriginY() / 2, getDirection(),
 					flowRate + velocity, range, new Texture("drop.png"));
 			drops.add(drop);
 		}

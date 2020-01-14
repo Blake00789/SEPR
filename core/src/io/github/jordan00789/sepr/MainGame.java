@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import java.util.ArrayList;
 
 public class MainGame implements Screen {
 	final Kroy game;
@@ -26,9 +24,9 @@ public class MainGame implements Screen {
 	Fortress fortress2;
 	Fortress fortress3;
 	Texture map;
-
 	Array<Entity> entities = new Array<Entity>();
 
+	
 	public MainGame(final Kroy game) {
 		this.game = game;
 
@@ -42,9 +40,15 @@ public class MainGame implements Screen {
 		map = new Texture("map.png");
 	}
 
+	/**
+	 * Separate method to load the fortresses.
+	 */
 	private void loadFortresses() {
+		// Screen width and height.
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
+
+		// We used relative coordinates so that multiple resolutions are supported.
 		fortress1 = new Fortress(100, new Texture("ctower.png"));
 		initEntity(fortress1, (0.53f * width), (0.26f * height));
 
@@ -57,6 +61,9 @@ public class MainGame implements Screen {
 		entities.add(fortress1, fortress2, fortress3);
 	}
 
+	/**
+	 * Separate method to load the trucks.
+	 */
 	private void loadTrucks() {
 		truck1 = new Firetruck(2500, 5, new Texture("truck1.png"));
 		initEntity(truck1, 50, 100);
@@ -64,31 +71,42 @@ public class MainGame implements Screen {
 		truck2 = new Firetruck(200, 100, new Texture("truck2.png"));
 		initEntity(truck2, 90, 150);
 
-		//camTruck is located at the centre of the screen. It is not rendered, but used
-		//to switch to the full map view.
+		// camTruck is located at the centre of the screen. It is not rendered, but used
+		// to switch to the full map view.
 		camTruck = new Firetruck(1, 1, new Texture("badlogic.jpg"));
 		camTruck.setX((Gdx.graphics.getWidth() / 2) - 256);
 		camTruck.setY((Gdx.graphics.getHeight() / 2) - 256);
 
 		changeToTruck(truck1);
-		
 		entities.add(truck1, truck2);
 	}
 
+	/**
+	 * Initialises the entity to the right size and position.
+	 * 
+	 * @param e The entity to initialise
+	 * @param x The x-coordinate of the entity
+	 * @param y The y-coordinate of the entity
+	 */
 	private void initEntity(Entity e, float x, float y) {
 		e.setScale(entityScale);
 		e.setOriginCenter();
 		e.setPosition(x - e.getOriginX(), y - e.getOriginY());
 	}
 
+	/**
+	 * The main render method, runs 60 times a second (The frame rate of the game).
+	 *
+	 * @param delta The current delta time
+	 */
 	public void render(float delta) {
-		
+
 		takeInputs();
 
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-		// Ensures viewport edges stay within the bounds of the map
+		// Ensures viewport edges stay within the bounds of the map.
 		float cameraX = Math.max(0.125f * Gdx.graphics.getWidth(),
 				Math.min(currentTruck.getX() + 256, 0.875f * Gdx.graphics.getWidth()));
 		float cameraY = Math.max(0.125f * Gdx.graphics.getHeight(),
@@ -101,12 +119,19 @@ public class MainGame implements Screen {
 		batch.begin();
 		batch.draw(map, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		entities.forEach(e -> {e.update(delta); e.draw(batch);});
+		// Updates and draws each entity in the entities array.
+		entities.forEach(e -> {
+			e.update(delta);
+			e.draw(batch);
+		});
 
 		batch.end();
 	}
 
-	private void takeInputs() {
+	/**
+	 * Check for inputs to move the current truck.
+	 */
+	private void takeInputs() { // TODO Move this class into the Firetruck class
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			currentTruck.goForward();
 		}
@@ -125,6 +150,9 @@ public class MainGame implements Screen {
 		switchTrucks();
 	}
 
+	/**
+	 * Check for inputs to switch between trucks.
+	 */
 	private void switchTrucks() {
 		if (Gdx.input.isKeyPressed(Keys.NUM_1)) {
 			changeToTruck(truck1);
@@ -137,11 +165,18 @@ public class MainGame implements Screen {
 			currentTruck = camTruck;
 			camera.zoom = 1f;
 		}
-		
+
 	}
-	
+
+	/**
+	 * Switches the camera to the specified truck.
+	 * 
+	 * @param t The truck to switch to
+	 */
 	private void changeToTruck(Firetruck t) {
-		if(currentTruck != null) {currentTruck.setColor(Color.WHITE);}
+		if (currentTruck != null) {
+			currentTruck.setColor(Color.WHITE);
+		}
 		currentTruck = t;
 		currentTruck.setColor(Color.RED);
 		camera.zoom = 0.25f;

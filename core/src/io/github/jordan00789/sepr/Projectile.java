@@ -1,9 +1,8 @@
 package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-
-import java.time.*;
+import java.time.Instant;
+import java.time.Duration;
 
 public class Projectile extends Entity implements Moveable{
 	
@@ -57,6 +56,10 @@ public class Projectile extends Entity implements Moveable{
 		velocity++;
 	}
 
+	/** Updates the movement of the projectile.
+	 *
+	 * @param delta The current delta time.
+	 */
 	@Override
 	public void update(float delta) {
 		setPosition((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)),
