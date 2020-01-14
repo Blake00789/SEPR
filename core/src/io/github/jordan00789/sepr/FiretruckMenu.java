@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -50,6 +51,9 @@ public class FiretruckMenu {
 	public static Stage stage;
 	private static Table table;
 	private static Table table2;
+	
+	private static Table table3;
+	
 	private static Stack stack;
 	private static Stack stack2;
 	private static Stack stack3;
@@ -61,6 +65,8 @@ public class FiretruckMenu {
 		stage.getCamera().viewportHeight = Gdx.graphics.getHeight();
 
 		stack = new Stack();
+		stack2 = new Stack();
+		stack3 = new Stack();
 		
 		table = new Table();
 		table.setWidth(stage.getWidth());
@@ -113,22 +119,20 @@ public class FiretruckMenu {
 
 		stack.add(firetruckUI1);
 		stack.add(firetruckUIDeployed);
-//		stack2.add(firetruckUI2);
-//		stack2.add(firetruckUIDeployed2);
-//		stack3.add(firetruckUI3);
-//		stack3.add(firetruckUIDeployed3);
+		stack2.add(firetruckUI2);
+		stack2.add(firetruckUIDeployed2);
+		stack3.add(firetruckUI3);
+		stack3.add(firetruckUIDeployed3);
 		
 		table2.row().height(40).padLeft(30);
 		table2.add(stack);
 		firetruckUIDeployed.setVisible(false);
-		
-//		table2.row().height(100).padLeft(30);
-//		table2.add(stack2);
-//		firetruckUIDeployed2.setVisible(false);
-		
-//		table2.row().height(50).padLeft(30);
-//		table2.add(stack3);
-//		firetruckUIDeployed3.setVisible(false);
+		table2.row().height(100).padLeft(30);
+		table2.add(stack2);
+		firetruckUIDeployed2.setVisible(false);
+		table2.row().height(50).padLeft(30);
+		table2.add(stack3);
+		firetruckUIDeployed3.setVisible(false);
 		
 		stage.addActor(table);
 		stage.addActor(table2);
@@ -138,12 +142,11 @@ public class FiretruckMenu {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				
-				if (firetruckUI1.isVisible() && firetruckUIDeployed.isVisible() == false) {
+				if (firetruckUI1.isVisible()) {
 					Gdx.app.log("isVisible", "visible");
 					firetruckUI1.setVisible(false);
 					firetruckUIDeployed.setVisible(true);
 				}
-				
 						
 				event.stop();
 			}
@@ -154,4 +157,8 @@ public class FiretruckMenu {
 
 
 	}
+	
+//	public boolean setVisibility(boolean visible) {
+//		
+//	}
 }
