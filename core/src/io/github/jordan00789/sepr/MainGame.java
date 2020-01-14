@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 
@@ -48,11 +47,10 @@ public class MainGame implements Screen {
 
 		map = new Texture("map.png");
 	}
-	
+
 	public static String getPixelColour(float x, float y) {
 		int pixcolour;
-		pixcolour = MainGame.speedMap.getPixel(Math.round(x),
-				Gdx.graphics.getHeight() - Math.round(y));
+		pixcolour = MainGame.speedMap.getPixel(Math.round(x), Gdx.graphics.getHeight() - Math.round(y));
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
 		if (col.length() > 2) {
 			col = col.substring(0, 7);
@@ -138,13 +136,17 @@ public class MainGame implements Screen {
 		batch.begin();
 		batch.draw(map, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		
-		entities.removeIf(e -> e.isDestroyed());
 		// Updates and draws each entity in the entities array.
 		entities.forEach(e -> {
 			e.update(delta);
 			e.draw(batch);
+			//Moves the entity to the screen centre when it is destroyed.
+			if (e.isDestroyed()) {
+				e.setPosition((Gdx.graphics.getWidth() / 2) - e.getOriginX(),
+						(Gdx.graphics.getHeight() / 2) - e.getOriginY());
+			}
 		});
+		entities.removeIf(e -> e.isDestroyed());
 
 		batch.end();
 	}
@@ -152,7 +154,7 @@ public class MainGame implements Screen {
 	/**
 	 * Check for inputs to move the current truck.
 	 */
-	private void takeInputs() { // TODO Move this class into the Firetruck class
+	private void takeInputs() {
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			currentTruck.goForward();
 		}
