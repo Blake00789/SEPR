@@ -67,13 +67,13 @@ public class MainGame implements Screen {
 		int height = Gdx.graphics.getHeight();
 
 		// We used relative coordinates so that multiple resolutions are supported.
-		fortress1 = new Fortress(100, new Texture("ctower.png"),1);
+		fortress1 = new Fortress(100, new Texture("ctower.png"), 1);
 		initEntity(fortress1, (0.53f * width), (0.26f * height));
 
-		fortress2 = new Fortress(100, new Texture("station.png"),2);
+		fortress2 = new Fortress(100, new Texture("station.png"), 2);
 		initEntity(fortress2, (0.29f * width), (0.66f * height));
 
-		fortress3 = new Fortress(100, new Texture("minster.png"),3);
+		fortress3 = new Fortress(100, new Texture("minster.png"), 3);
 		initEntity(fortress3, (0.47f * width), (0.82f * height));
 	}
 
@@ -140,7 +140,7 @@ public class MainGame implements Screen {
 		entities.forEach(e -> {
 			e.update(delta);
 			e.draw(batch);
-			//Moves the entity to the screen centre when it is destroyed.
+			// Moves the entity to the screen centre when it is destroyed.
 			if (e.isDestroyed()) {
 				e.setPosition((Gdx.graphics.getWidth() / 2) - e.getOriginX(),
 						(Gdx.graphics.getHeight() / 2) - e.getOriginY());
