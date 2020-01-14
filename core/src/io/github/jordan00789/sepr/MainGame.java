@@ -155,6 +155,7 @@ public class MainGame implements Screen {
 	 * Check for inputs to move the current truck.
 	 */
 	private void takeInputs() {
+
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			currentTruck.goForward();
 		}
