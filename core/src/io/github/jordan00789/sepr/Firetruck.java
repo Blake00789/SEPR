@@ -3,7 +3,6 @@ package io.github.jordan00789.sepr;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -15,11 +14,10 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private float deceleration = 0.5f;
 	private float direction = 0;
 	private float velocity = 0;
-	private Pixmap speedMap = MainGame.speedMap;
 	public ArrayList<Projectile> drops = new ArrayList<Projectile>();
 	private static float range = 2f;
 	private static float flowRate = 40f;
-	private float c = (float) Math.PI / 180;
+	private float piConstant = (float) Math.PI / 180;
 
 	/**
 	 * Creates a Firetruck sprite using the texture provided, with the specified
@@ -212,13 +210,13 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		// Checks either front or back of the truck sprite depending on whether the
 		// truck is moving forwards or backwards
 		if (velocity > 0) {
-			pixcolour = speedMap.getPixel(Math.round(getX() + getOriginX() + ((float) Math.sin(direction * c) * 9)),
+			pixcolour = MainGame.speedMap.getPixel(Math.round(getX() + getOriginX() + ((float) Math.sin(direction * piConstant) * 9)),
 					Gdx.graphics.getHeight()
-							- Math.round(getY() + getOriginY() + ((float) Math.cos(direction * c) * 9)));
+							- Math.round(getY() + getOriginY() + ((float) Math.cos(direction * piConstant) * 9)));
 		} else {
-			pixcolour = speedMap.getPixel(Math.round(getX() + getOriginX() - ((float) Math.sin(direction * c) * 9)),
+			pixcolour = MainGame.speedMap.getPixel(Math.round(getX() + getOriginX() - ((float) Math.sin(direction * piConstant) * 9)),
 					Gdx.graphics.getHeight()
-							- Math.round(getY() + getOriginY() - ((float) Math.cos(direction * c) * 9)));
+							- Math.round(getY() + getOriginY() - ((float) Math.cos(direction * piConstant) * 9)));
 		}
 		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
@@ -263,8 +261,8 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	public void attack() {
 		if (drops.size() < 50) {
 			takeWater(1);
-			Projectile drop = new Projectile((getX() + getOriginX() / 2) + ((float) Math.sin(direction * c) * 10),
-					(getY() + getOriginY() / 2) + ((float) Math.cos(direction * c) * 10), getDirection(),
+			Projectile drop = new Projectile((getX() + getOriginX() / 2) + ((float) Math.sin(direction * piConstant) * 10),
+					(getY() + getOriginY() / 2) + ((float) Math.cos(direction * piConstant) * 10), getDirection(),
 					flowRate + velocity, range, new Texture("drop.png"));
 			drops.add(drop);
 		}

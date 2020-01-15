@@ -66,15 +66,6 @@ public class Entity extends Sprite {
 	}
 
 	/**
-	 * Returns true if the entity has a health value more than 0.
-	 * 
-	 * @return A boolean of whether the entity is alive or not
-	 */
-	public boolean isAlive() {
-		return (getHealth() > 0);
-	}
-
-	/**
 	 * Updates the entity. If not overridden, does nothing.
 	 * 
 	 * @param delta The current delta time

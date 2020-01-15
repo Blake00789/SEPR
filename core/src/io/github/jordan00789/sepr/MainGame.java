@@ -147,6 +147,11 @@ public class MainGame implements Screen {
 			}
 		});
 		entities.removeIf(e -> e.isDestroyed());
+		//TODO This line is inefficient, may need refactoring
+		if(!entities.contains(fortress1) && !entities.contains(fortress2) && !entities.contains(fortress3)) {
+			game.setScreen(new MainEnd(game));
+			dispose();
+		}
 
 		batch.end();
 	}
