@@ -29,7 +29,7 @@ public class MainGame implements Screen {
     
     //Entities
     Firetruck camTruck;
-    Firetruck truck1;
+    static Firetruck truck1;
 	Firetruck truck2;
 	Firetruck currentTruck;
     Fortress fortress1;
@@ -156,6 +156,8 @@ public class MainGame implements Screen {
     	stateTime += delta;
     	
     	takeInputs();
+    	
+    	
     	
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);

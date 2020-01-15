@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -21,7 +21,7 @@ public class FiretruckMenu {
 	private static Texture textureBackground;
 	private static TextureRegion backgroundRegion;
 	private static TextureRegionDrawable backgroundRegionDrawable;
-	public static ImageButton UIBackground;
+	private static ImageButton UIBackground;
 	
 	private static Texture texture1;
 	private static TextureRegion textureRegion1;
@@ -35,39 +35,19 @@ public class FiretruckMenu {
 	private static TextureRegion textureRegion3;
 	private static TextureRegionDrawable textureRegionDrawable3;
 	public static ImageButton firetruckUI3;
-	private static Texture texture4;
-	private static TextureRegion textureRegion4;
-	private static TextureRegionDrawable textureRegionDrawable4;
-	public static ImageButton firetruckUIDeployed;
-	private static Texture texture5;
-	private static TextureRegion textureRegion5;
-	private static TextureRegionDrawable textureRegionDrawable5;
-	public static ImageButton firetruckUIDeployed2;
-	private static Texture texture6;
-	private static TextureRegion textureRegion6;
-	private static TextureRegionDrawable textureRegionDrawable6;
-	public static ImageButton firetruckUIDeployed3;
 
 	public static Stage stage;
 	private static Table table;
 	private static Table table2;
-	
 	private static Table table3;
-	
-	private static Stack stack;
-	private static Stack stack2;
-	private static Stack stack3;
+
 
 	public static void create() {
 		
 		stage = new Stage();
 		stage.getCamera().viewportWidth = Gdx.graphics.getWidth();
 		stage.getCamera().viewportHeight = Gdx.graphics.getHeight();
-
-		stack = new Stack();
-		stack2 = new Stack();
-		stack3 = new Stack();
-		
+				
 		table = new Table();
 		table.setWidth(stage.getWidth());
 		//things added to the table are added to the left and at the top
@@ -79,6 +59,11 @@ public class FiretruckMenu {
 		//things added to the table are added to the center and at the top
 		table2.align(Align.left|Align.top);
 		table2.setPosition(0, (float) (Gdx.graphics.getHeight()/3));
+		
+		table3 = new Table();
+		table3.setWidth(stage.getWidth());
+		table3.align(Align.left|Align.top);
+		table3.setPosition(20, (float) (Gdx.graphics.getHeight()/3));
 
 		textureBackground = new Texture(Gdx.files.internal("stationUI.png"));
 		backgroundRegion = new TextureRegion(textureBackground);
@@ -100,57 +85,39 @@ public class FiretruckMenu {
 		textureRegionDrawable3 = new TextureRegionDrawable(textureRegion3);
 		firetruckUI3 = new ImageButton(textureRegionDrawable3);
 		
-		texture4 = new Texture(Gdx.files.internal("truckUIdeployed.png"));
-		textureRegion4 = new TextureRegion(texture4);
-		textureRegionDrawable4 = new TextureRegionDrawable(textureRegion4);
-		firetruckUIDeployed = new ImageButton(textureRegionDrawable4);
-
-		texture5 = new Texture(Gdx.files.internal("truckUIdeployed.png"));
-		textureRegion5 = new TextureRegion(texture5);
-		textureRegionDrawable5 = new TextureRegionDrawable(textureRegion5);
-		firetruckUIDeployed2 = new ImageButton(textureRegionDrawable5);
-		
-		texture6 = new Texture(Gdx.files.internal("truckUIdeployed.png"));
-		textureRegion6 = new TextureRegion(texture6);
-		textureRegionDrawable6 = new TextureRegionDrawable(textureRegion6);
-		firetruckUIDeployed3 = new ImageButton(textureRegionDrawable6);
-		
 		table.add(UIBackground).padLeft(20);
 
-		stack.add(firetruckUI1);
-		stack.add(firetruckUIDeployed);
-		stack2.add(firetruckUI2);
-		stack2.add(firetruckUIDeployed2);
-		stack3.add(firetruckUI3);
-		stack3.add(firetruckUIDeployed3);
-		
 		table2.row().height(40).padLeft(30);
-		table2.add(stack);
-		firetruckUIDeployed.setVisible(false);
+		table2.add(firetruckUI1);
 		table2.row().height(100).padLeft(30);
-		table2.add(stack2);
-		firetruckUIDeployed2.setVisible(false);
+		table2.add(firetruckUI2);
 		table2.row().height(50).padLeft(30);
-		table2.add(stack3);
-		firetruckUIDeployed3.setVisible(false);
+		table2.add(firetruckUI3);
 		
-		stage.addActor(table);
-		stage.addActor(table2);
-		Gdx.input.setInputProcessor(stage);
+//		table3.row().height(48).padLeft(30);
+//		table3.add(firetruckUIDeployed);
+//		table3.row().height(90).padLeft(30);
+//		table3.add(firetruckUIDeployed2);
+//		table3.row().height(60).padLeft(30);
+//		table3.add(firetruckUIDeployed3);
 		
 		firetruckUI1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				
-				if (firetruckUI1.isVisible()) {
-					Gdx.app.log("isVisible", "visible");
-					firetruckUI1.setVisible(false);
-					firetruckUIDeployed.setVisible(true);
-				}
-						
+				//Set position outside of the station?
+				MainGame.truck1.setPosition(x, y);
+				
 				event.stop();
 			}
 		});
+		
+		stage.addActor(table);
+		stage.addActor(table2);
+		stage.addActor(table3);
+		
+		Gdx.input.setInputProcessor(stage);
+		
 		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -158,7 +125,6 @@ public class FiretruckMenu {
 
 	}
 	
-//	public boolean setVisibility(boolean visible) {
-//		
-//	}
+
+	
 }
