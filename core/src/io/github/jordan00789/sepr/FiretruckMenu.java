@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,7 +24,7 @@ public class FiretruckMenu {
 	private static Table backgroundTable;
 	private static Table iconTable;
 	private static Table sliderTable;
-
+	
 	private static ImageButton createImageButton(Texture tex) {
 		return new ImageButton(new TextureRegionDrawable(tex));
 	}
@@ -44,22 +45,11 @@ public class FiretruckMenu {
 		iconTable.align(Align.left | Align.top);
 		iconTable.setPosition(0, (float) (Gdx.graphics.getHeight() / 3));
 		
-//		skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-//		sliderTable = new Table();
-//		Slider slider = new Slider(0, 100, 1, false, skin);
-//		Container<Slider> container = new Container<Slider>(slider);
-//		container.setTransform(true); //enabling scaling and rotation
-//		container.size(100, 60);
-//		container.setOrigin(container.getWidth()/2, container.getHeight()/2);
-//		container.setPosition(100, 200);
-//		container.setScale(3); //scaling 
-//		sliderTable.addActor(container);
-		
 		ImageButton UIBackground = createImageButton(new Texture("stationUI.png"));
 		ImageButton firetruckUI1 = createImageButton(new Texture("truckUI.png"));
 		ImageButton firetruckUI2 = createImageButton(new Texture("truckUI.png"));
 		ImageButton firetruckUI3 = createImageButton(new Texture("truckUI.png"));
-
+		
 		backgroundTable.add(UIBackground).padLeft(20);
 		
 		iconTable.row().height(40).padLeft(30);
@@ -71,7 +61,6 @@ public class FiretruckMenu {
 
 		stage.addActor(backgroundTable);
 		stage.addActor(iconTable);
-//		stage.addActor(sliderTable);
 		Gdx.input.setInputProcessor(stage);
 
 		firetruckUI1.addListener(new ClickListener() {
@@ -88,6 +77,8 @@ public class FiretruckMenu {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
+	
+	
 	
 
 	
