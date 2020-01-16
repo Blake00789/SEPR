@@ -33,7 +33,7 @@ public class MainGame implements Screen {
 		this.game = game;
 
 		// This is a pixmap used to get the pixel RGBA values at specified coordinates.
-		Pixmap pmap = new Pixmap(Gdx.files.internal("../core/assets/map.png"));
+		Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
 		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), pmap.getFormat());
 		speedMap.drawPixmap(pmap, 0, 0, pmap.getWidth(), pmap.getHeight(), 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
@@ -45,7 +45,7 @@ public class MainGame implements Screen {
 		loadTrucks();
 		loadFortresses();
 
-		map = new Texture("../core/assets/map.png");
+		map = new Texture("map.png");
 	}
 
 	public static String getPixelColour(float x, float y) {
@@ -67,13 +67,13 @@ public class MainGame implements Screen {
 		int height = Gdx.graphics.getHeight();
 
 		// We used relative coordinates so that multiple resolutions are supported.
-		fortress1 = new Fortress(100, new Texture("../core/assets/ctower.png"), 1);
+		fortress1 = new Fortress(100, new Texture("ctower.png"), 1);
 		initEntity(fortress1, (0.53f * width), (0.26f * height));
 
-		fortress2 = new Fortress(100, new Texture("../core/assets/station.png"), 2);
+		fortress2 = new Fortress(100, new Texture("station.png"), 2);
 		initEntity(fortress2, (0.29f * width), (0.66f * height));
 
-		fortress3 = new Fortress(100, new Texture("../core/assets/minster.png"), 3);
+		fortress3 = new Fortress(100, new Texture("minster.png"), 3);
 		initEntity(fortress3, (0.47f * width), (0.82f * height));
 	}
 
@@ -81,15 +81,15 @@ public class MainGame implements Screen {
 	 * Separate method to load the trucks.
 	 */
 	private void loadTrucks() {
-		truck1 = new Firetruck(150, 80, new Texture("../core/assets/truck1.png"));
+		truck1 = new Firetruck(150, 80, new Texture("truck1.png"));
 		initEntity(truck1, 50, 100);
 
-		truck2 = new Firetruck(50, 200, new Texture("../core/assets/truck2.png"));
+		truck2 = new Firetruck(50, 200, new Texture("truck2.png"));
 		initEntity(truck2, 90, 150);
 
 		// camTruck is located at the centre of the screen. It is not rendered, but used
 		// to switch to the full map view.
-		camTruck = new Firetruck(1, 1, new Texture("../core/assets/badlogic.jpg"));
+		camTruck = new Firetruck(1, 1, new Texture("badlogic.jpg"));
 		camTruck.setX((Gdx.graphics.getWidth() / 2) - 256);
 		camTruck.setY((Gdx.graphics.getHeight() / 2) - 256);
 

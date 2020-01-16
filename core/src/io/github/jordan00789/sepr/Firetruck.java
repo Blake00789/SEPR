@@ -223,7 +223,8 @@ public class Firetruck extends Entity implements Attack, Moveable {
 					Gdx.graphics.getHeight()
 							- Math.round(getY() + getOriginY() - ((float) Math.cos(direction * piConstant) * 9)));
 		}
-		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
+		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask.
+		// Note: col is GBR instead of RGB
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
 		if (col.length() > 2) {
 			col = col.substring(0, 7);
@@ -275,7 +276,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 			Projectile drop = new Projectile(
 					(getX() + getOriginX() / 2) + ((float) Math.sin(direction * piConstant) * 10),
 					(getY() + getOriginY() / 2) + ((float) Math.cos(direction * piConstant) * 10), getDirection(),
-					flowRate + velocity, range, new Texture("../core/assets/drop.png"));
+					flowRate + velocity, range, new Texture("drop.png"));
 			drops.add(drop);
 		}
 		if (water == 0) {
