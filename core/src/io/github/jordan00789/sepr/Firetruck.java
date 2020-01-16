@@ -3,6 +3,7 @@ package io.github.jordan00789.sepr;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -43,7 +44,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	 * @param amount The amount that the water variable is set to
 	 */
 	private void setWater(int amount) {
-		if (amount <= maxWater && amount > 0) { 
+		if (amount <= maxWater && amount > 0) {
 			water = amount;
 		}
 	}
@@ -63,7 +64,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	 * Refills the truck to the maximum amount of water.
 	 */
 	public void refill() {
-		setWater(maxWater);
+		if (water < maxWater) {
+			setWater(water + 1);
+		}
 	}
 
 	/**
@@ -210,18 +213,19 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		// Checks either front or back of the truck sprite depending on whether the
 		// truck is moving forwards or backwards
 		if (velocity > 0) {
-			pixcolour = MainGame.speedMap.getPixel(Math.round(getX() + getOriginX() + ((float) Math.sin(direction * piConstant) * 9)),
+			pixcolour = MainGame.speedMap.getPixel(
+					Math.round(getX() + getOriginX() + ((float) Math.sin(direction * piConstant) * 9)),
 					Gdx.graphics.getHeight()
 							- Math.round(getY() + getOriginY() + ((float) Math.cos(direction * piConstant) * 9)));
 		} else {
-			pixcolour = MainGame.speedMap.getPixel(Math.round(getX() + getOriginX() - ((float) Math.sin(direction * piConstant) * 9)),
+			pixcolour = MainGame.speedMap.getPixel(
+					Math.round(getX() + getOriginX() - ((float) Math.sin(direction * piConstant) * 9)),
 					Gdx.graphics.getHeight()
 							- Math.round(getY() + getOriginY() - ((float) Math.cos(direction * piConstant) * 9)));
 		}
 		// Convert 32-bit RGBA8888 integer to 3-bit hex code, using a mask
 		String col = "#" + Integer.toHexString(pixcolour & 15790320);
 		if (col.length() > 2) {
-
 			col = col.substring(0, 7);
 		}
 		switch (col) {
@@ -245,6 +249,13 @@ public class Firetruck extends Entity implements Attack, Moveable {
 		case ("#c0f0f0"):// water 2
 			setVelocity(0f);
 			return 0f;
+		case ("#8070f0"):
+			if(water == maxWater) {
+				setColor(Color.RED);
+				}
+			refill();
+			setHealth((int) (getHealth()+1));
+			return 30f;
 		case ("#0"):// off of map
 			setVelocity(0f);
 			return 0f;
@@ -259,12 +270,16 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	 */
 	@Override
 	public void attack() {
-		if (drops.size() < 50) {
+		if (drops.size() < 20 && water > 0) {
 			takeWater(1);
-			Projectile drop = new Projectile((getX() + getOriginX() / 2) + ((float) Math.sin(direction * piConstant) * 10),
+			Projectile drop = new Projectile(
+					(getX() + getOriginX() / 2) + ((float) Math.sin(direction * piConstant) * 10),
 					(getY() + getOriginY() / 2) + ((float) Math.cos(direction * piConstant) * 10), getDirection(),
-					flowRate + velocity, range, new Texture("drop.png"));
+					flowRate + velocity, range, new Texture("../core/assets/drop.png"));
 			drops.add(drop);
+		}
+		if (water == 0) {
+			setColor(Color.CYAN);
 		}
 	}
 }

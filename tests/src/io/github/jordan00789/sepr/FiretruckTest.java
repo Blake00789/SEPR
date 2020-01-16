@@ -15,7 +15,7 @@ public class FiretruckTest {
 
 	@Before
 	public void init() {
-		truck = new Firetruck(100, 500, new Texture("../core/assets/firetruck.png"));
+		truck = new Firetruck(100, 500, new Texture("../core/assets/truck1.png"));
 	}
 
 	@Test

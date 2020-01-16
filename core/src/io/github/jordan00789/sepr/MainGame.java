@@ -81,10 +81,10 @@ public class MainGame implements Screen {
 	 * Separate method to load the trucks.
 	 */
 	private void loadTrucks() {
-		truck1 = new Firetruck(50, 5, new Texture("truck1.png"));
+		truck1 = new Firetruck(150, 80, new Texture("truck1.png"));
 		initEntity(truck1, 50, 100);
 
-		truck2 = new Firetruck(200, 100, new Texture("truck2.png"));
+		truck2 = new Firetruck(50, 200, new Texture("truck2.png"));
 		initEntity(truck2, 90, 150);
 
 		// camTruck is located at the centre of the screen. It is not rendered, but used
@@ -149,9 +149,14 @@ public class MainGame implements Screen {
 		entities.removeIf(e -> e.isDestroyed());
 		//TODO This line is inefficient, may need refactoring
 		if(!entities.contains(fortress1) && !entities.contains(fortress2) && !entities.contains(fortress3)) {
-			game.setScreen(new MainEnd(game));
+			game.setScreen(new MainWin(game));
 			dispose();
 		}
+		if (!entities.contains(truck1) && !entities.contains(truck2)) {
+			game.setScreen(new MainLose(game));
+			dispose();
+		}
+		
 
 		batch.end();
 	}

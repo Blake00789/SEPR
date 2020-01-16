@@ -53,7 +53,6 @@ public class Entity extends Sprite {
 	 */
 	public void takeDamage(int damage) {
 		health -= damage;
-		System.out.println("ouch, damage = "+damage);
 	}
 
 	/**
@@ -91,7 +90,7 @@ public class Entity extends Sprite {
 	 * @return The direction of the entity
 	 */
 	public float directionTo(float x, float y) {
-		return (float) ((180 / Math.PI) * Math.atan2(x - (getX() + 384), y - (getY() + 384)));
+		return (float) ((180 / Math.PI) * Math.atan2(x - (getX() + getOriginX()), y - (getY() + getOriginY())));
 	}
 
 	/**
@@ -115,5 +114,6 @@ public class Entity extends Sprite {
 		return (float) Math
 				.sqrt(Math.pow((fary - (getY() + getOriginY())), 2) + Math.pow((farx - (getX() + getOriginX())), 2));
 	}
+	
 
 }
