@@ -95,7 +95,7 @@ public class Entity extends Sprite {
 
 	/**
 	 * Calculate the distance from the current entity to another entity.
-	 * 
+	 *
 	 * @param e The entity to calculate the distance to
 	 * @return The distance to the entity
 	 */
@@ -105,7 +105,7 @@ public class Entity extends Sprite {
 
 	/**
 	 * Calculate the distance from the entity to a point.
-	 * 
+	 *
 	 * @param x The x-coordinate of the point
 	 * @param y The y-coordinate of the point
 	 * @return The distance to the point
@@ -114,6 +114,4 @@ public class Entity extends Sprite {
 		return (float) Math
 				.sqrt(Math.pow((fary - (getY() + getOriginY())), 2) + Math.pow((farx - (getX() + getOriginX())), 2));
 	}
-	
-
 }
