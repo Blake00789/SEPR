@@ -13,7 +13,6 @@ public class FiretruckTest {
 
 	private Firetruck truck;
 	private Kroy kroy;
-	private MainGame main;
 	@Before
 	public void init() {
 		truck = new Firetruck(100, 500, new Texture("../core/assets/truck1.png"));

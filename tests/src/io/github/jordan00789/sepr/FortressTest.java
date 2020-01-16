@@ -2,29 +2,24 @@ package io.github.jordan00789.sepr;
 
 import static org.junit.Assert.*;
 
+import com.badlogic.gdx.graphics.Texture;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(GdxTestRunner.class)
 public class FortressTest {
 
+	private Fortress fortress;
+	private Kroy kroy;
 
-	@Test
-	public void testDirectionToEntity() {
-		fail("Not yet implemented"); // TODO
+	@Before
+	public void init() {
+		fortress = new Fortress(100, new Texture("../core/assets/ctower.png"), 2);
 	}
 
 	@Test
 	public void testDirectionToFloatFloat() {
-		fail("Not yet implemented"); // TODO
+		assertTrue(fortress.directionTo(fortress.getX() + 394, fortress.getY() + 384) == 90);
 	}
-
-	@Test
-	public void testDistanceToEntity() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testDistanceToFloatFloat() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }

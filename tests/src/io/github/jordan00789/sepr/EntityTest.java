@@ -2,9 +2,11 @@ package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.graphics.Texture;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+@RunWith(GdxTestRunner.class)
 public class EntityTest {
 
     private Entity entity;
@@ -41,24 +43,5 @@ public class EntityTest {
         assertTrue(entity.isDestroyed());
         entity.setHealth(100);
         assertTrue(!entity.isDestroyed());
-    }
-
-    public static class ProjectileTest {
-
-        @org.junit.Test
-        public void turnLeft() {
-        }
-
-        @org.junit.Test
-        public void turnRight() {
-        }
-
-        @org.junit.Test
-        public void goForward() {
-        }
-
-        @org.junit.Test
-        public void goBackward() {
-        }
     }
 }

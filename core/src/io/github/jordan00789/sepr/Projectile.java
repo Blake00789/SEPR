@@ -53,7 +53,7 @@ public class Projectile extends Entity implements Moveable {
 
 	@Override
 	public void goBackward() {
-		velocity++;
+		velocity--;
 	}
 
 	/**
@@ -89,4 +89,11 @@ public class Projectile extends Entity implements Moveable {
 		return ((Duration.between(startTime, Instant.now()).getSeconds()) > lifeTime || disposable);
 	}
 
+	public float getDirection() {
+		return direction;
+	}
+
+	public float getVelocity() {
+		return velocity;
+	}
 }
