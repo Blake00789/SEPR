@@ -66,7 +66,7 @@ public class FiretruckMenu {
 		
 		//HPBAR
 		//set the colour red for the background
-		Pixmap pixmapHP = new Pixmap(100, 5, Format.RGBA8888);
+		Pixmap pixmapHP = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapHP.setColor(Color.RED);
 		pixmapHP.fill();
 		TextureRegionDrawable drawableHP = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapHP)));
@@ -83,7 +83,7 @@ public class FiretruckMenu {
 		progressBarStyleHP.knob = drawableHP2;
 		
 		//knobBefore is represented to drawable with the width of the background
-		Pixmap pixmapHP2 = new Pixmap(100, 5, Format.RGBA8888);
+		Pixmap pixmapHP2 = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapHP2.setColor(Color.GREEN);
 		pixmapHP2.fill();
 		drawableHP = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapHP2)));
@@ -92,7 +92,7 @@ public class FiretruckMenu {
 		
 		//WATERBAR
 		//set the colour white for the background 
-		Pixmap pixmapWater = new Pixmap(100, 5, Format.RGBA8888);
+		Pixmap pixmapWater = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapWater.setColor(Color.WHITE);
 		pixmapWater.fill();
 		TextureRegionDrawable drawableWater = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapWater)));
@@ -109,7 +109,7 @@ public class FiretruckMenu {
 		progressBarStyleWater.knob = drawableWater2;
 		
 		//knobBefore is represented to drawable with the width of the background
-		Pixmap pixmapWater2 = new Pixmap(100, 5, Format.RGBA8888);
+		Pixmap pixmapWater2 = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapWater2.setColor(Color.BLUE);
 		pixmapWater2.fill();
 		drawableWater = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapWater2)));
@@ -120,22 +120,22 @@ public class FiretruckMenu {
 		ProgressBar waterBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleWater);
 		waterBar.setValue(1.0f);
 		waterBar.setAnimateDuration(0.25f);
-		waterBar.setBounds(10, 10, 100, 20);
+		waterBar.setBounds(10, 10, 60, 20);
 		
 		ProgressBar waterBar2 = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleWater);
 		waterBar2.setValue(1.0f);
 		waterBar2.setAnimateDuration(0.25f);
-		waterBar2.setBounds(10, 10, 100, 20);
+		waterBar2.setBounds(10, 10, 60, 20);
 		
 		ProgressBar healthBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleHP);
 		healthBar.setValue(1.0f);
 		healthBar.setAnimateDuration(0.25f);
-		healthBar.setBounds(10, 10, 100, 20);
+		healthBar.setBounds(10, 10, 60, 20);
 		
 		ProgressBar healthBar2 = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleHP);
 		healthBar2.setValue(1.0f);
 		healthBar2.setAnimateDuration(0.25f);
-		healthBar2.setBounds(10, 10, 100, 20);
+		healthBar2.setBounds(10, 10, 60, 20);
 		
 		backgroundTable.add(UIBackground).padLeft(20);
 		
@@ -161,17 +161,17 @@ public class FiretruckMenu {
 		stage.addActor(barTableTruck2);
 		Gdx.input.setInputProcessor(stage);
 
-		firetruckUI1.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				
-				//to be
-				if (MainGame.truck1.getColor() == Color.BLACK) {
-					MainGame.truck1.setColor(Color.WHITE);
-//					Gdx.app.log("colour:", "black to white");
-				}
-				event.stop();
-			}
-		});
+//		firetruckUI1.addListener(new ClickListener() {
+//			public void clicked(InputEvent event, float x, float y) {
+//				
+//				//to be
+//				if (MainGame.truck1.getColor() == Color.BLACK) {
+//					MainGame.truck1.setColor(Color.WHITE);
+////					Gdx.app.log("colour:", "black to white");
+//				}
+//				event.stop();
+//			}
+//		});
 		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
