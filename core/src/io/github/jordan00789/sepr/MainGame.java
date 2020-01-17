@@ -156,7 +156,8 @@ public class MainGame implements Screen {
             game.setScreen(new MainLose(game));
             dispose();
         }
-
+        
+        FiretruckMenu.create();
 
         batch.end();
     }
