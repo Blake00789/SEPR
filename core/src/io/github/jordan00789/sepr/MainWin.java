@@ -23,7 +23,6 @@ public class MainWin implements Screen {
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -43,31 +42,30 @@ public class MainWin implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		camera.setToOrtho(false, width, height);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		// TODO Enter pause menu
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		// TODO Resume from pause menu
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 }

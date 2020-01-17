@@ -26,6 +26,7 @@ public class MainGame implements Screen {
 	Fortress fortress2;
 	Fortress fortress3;
 	Texture map;
+	Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
 	public static Pixmap speedMap;
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -33,7 +34,6 @@ public class MainGame implements Screen {
 		this.game = game;
 
 		// This is a pixmap used to get the pixel RGBA values at specified coordinates.
-		Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
 		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), pmap.getFormat());
 		speedMap.drawPixmap(pmap, 0, 0, pmap.getWidth(), pmap.getHeight(), 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
@@ -216,8 +216,19 @@ public class MainGame implements Screen {
 		camera.zoom = 0.25f;
 	}
 
+	/**
+	 * When the window is resized, this method is called.
+	 */
 	@Override
 	public void resize(int width, int height) {
+		camera.setToOrtho(false, width, height);
+		speedMap.drawPixmap(pmap, 0, 0, pmap.getWidth(), pmap.getHeight(), 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
+		//getOriginX() and getOriginY() is 512 for all fortresses
+		fortress1.setPosition((0.53f * width)-512, (0.26f * height)-512);
+		fortress2.setPosition((0.29f * width)-512, (0.66f * height)-512);
+		fortress3.setPosition((0.47f * width)-512, (0.82f * height)-512);
+		
 	}
 
 	@Override

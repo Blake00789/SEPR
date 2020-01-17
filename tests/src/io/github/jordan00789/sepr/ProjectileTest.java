@@ -1,7 +1,6 @@
 package io.github.jordan00789.sepr;
 
 import com.badlogic.gdx.graphics.Texture;
-import org.graalvm.compiler.lir.StandardOp;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 

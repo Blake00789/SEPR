@@ -85,6 +85,10 @@ public class Projectile extends Entity implements Moveable {
 		}
 	}
 
+	/**
+	 * Returns whether the projectile is disposable or not.
+	 * @return True if the projectile is disposable
+	 */
 	public boolean isDisposable() {
 		return ((Duration.between(startTime, Instant.now()).getSeconds()) > lifeTime || disposable);
 	}

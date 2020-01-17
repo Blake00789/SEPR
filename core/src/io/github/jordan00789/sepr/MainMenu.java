@@ -34,7 +34,6 @@ public class MainMenu implements Screen {
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
-
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 			game.setScreen(new MainGame(game));
 			dispose();
@@ -43,25 +42,36 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		camera.setToOrtho(false, width, height);
 	}
-
+	
 	@Override
 	public void show() {
-	}
+		// TODO Auto-generated method stub
 
-	@Override
-	public void hide() {
 	}
 
 	@Override
 	public void pause() {
+		// TODO Enter pause menu
+
 	}
 
 	@Override
 	public void resume() {
+		// TODO Resume from pause menu
+
+	}
+
+	@Override
+	public void hide() {
+		// Auto-generated method stub
+
 	}
 
 	@Override
 	public void dispose() {
+		// Auto-generated method stub
+
 	}
 }
