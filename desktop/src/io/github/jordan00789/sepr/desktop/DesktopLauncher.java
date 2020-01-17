@@ -7,10 +7,10 @@ import io.github.jordan00789.sepr.Kroy;
 
 
 public class DesktopLauncher {
-	public static void main (String[] args) {
-		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Kroy");
-		config.setWindowedMode(1280,720);
-		new Lwjgl3Application(new Kroy(), config);
-	}
+    public static void main(String[] args) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Kroy");
+        config.setWindowedMode(1280, 720);
+        new Lwjgl3Application(new Kroy(), config);
+    }
 }

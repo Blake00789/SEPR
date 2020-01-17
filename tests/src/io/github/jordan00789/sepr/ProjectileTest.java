@@ -15,10 +15,11 @@ public class ProjectileTest {
     public void init() {
         projectile = new Projectile(0, 0, 0, 0, 10, new Texture("../core/assets/badlogic.png"));
     }
+
     @org.junit.Test
     public void turnLeft() {
         projectile.turnLeft();
-        assertTrue(projectile.getDirection() == -1 );
+        assertTrue(projectile.getDirection() == -1);
     }
 
     @org.junit.Test

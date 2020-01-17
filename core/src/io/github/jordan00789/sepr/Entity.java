@@ -5,113 +5,113 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Entity extends Sprite {
 
-	private int health;
-	
-	/**
-	 * Creates a new entity with the specified texture and a default health of 1.
-	 * 
-	 * @param texture The texture given to the entity sprite
-	 */
-	public Entity(Texture texture) {
-		super(texture);
-		this.health = 1;
-	}
+    private int health;
 
-	/**
-	 * Creates a new entity with the specified texture and health.
-	 * 
-	 * @param health  The amount of health the Fortress has
-	 * @param texture The texture given to the entity sprite
-	 */
-	public Entity(int health, Texture texture) {
-		super(texture);
-		this.health = health;
-	}
+    /**
+     * Creates a new entity with the specified texture and a default health of 1.
+     *
+     * @param texture The texture given to the entity sprite
+     */
+    public Entity(Texture texture) {
+        super(texture);
+        this.health = 1;
+    }
 
-	/**
-	 * Returns the current health of the entity.
-	 * 
-	 * @return The current health of the entity
-	 */
-	public float getHealth() {
-		return health;
-	}
+    /**
+     * Creates a new entity with the specified texture and health.
+     *
+     * @param health  The amount of health the Fortress has
+     * @param texture The texture given to the entity sprite
+     */
+    public Entity(int health, Texture texture) {
+        super(texture);
+        this.health = health;
+    }
 
-	/**
-	 * Sets the health of the entity.
-	 * 
-	 * @param health The value to set health to
-	 */
-	protected void setHealth(int health) {
-		this.health = health;
-	}
+    /**
+     * Returns the current health of the entity.
+     *
+     * @return The current health of the entity
+     */
+    public float getHealth() {
+        return health;
+    }
 
-	/**
-	 * Removes the specified amount of health from the entity.
-	 * 
-	 * @param damage The amount of health to remove
-	 */
-	public void takeDamage(int damage) {
-		health -= damage;
-	}
+    /**
+     * Sets the health of the entity.
+     *
+     * @param health The value to set health to
+     */
+    protected void setHealth(int health) {
+        this.health = health;
+    }
 
-	/**
-	 * Returns true if the entity has a health value less than or equal to 0.
-	 * 
-	 * @return A boolean of whether the entity is destroyed or not
-	 */
-	public boolean isDestroyed() {
-		return (getHealth() <= 0);
-	}
+    /**
+     * Removes the specified amount of health from the entity.
+     *
+     * @param damage The amount of health to remove
+     */
+    public void takeDamage(int damage) {
+        health -= damage;
+    }
 
-	/**
-	 * Updates the entity. If not overridden, does nothing.
-	 * 
-	 * @param delta The current delta time
-	 */
-	public void update(float delta) {
-	}
+    /**
+     * Returns true if the entity has a health value less than or equal to 0.
+     *
+     * @return A boolean of whether the entity is destroyed or not
+     */
+    public boolean isDestroyed() {
+        return (getHealth() <= 0);
+    }
 
-	/**
-	 * Calculate the direction from the current entity to another entity.
-	 * 
-	 * @param e The entity to calculate the direction of
-	 * @return The direction of the entity
-	 */
-	public float directionTo(Entity e) {
-		return directionTo(e.getX() + (e.getOriginX() / 2), e.getY() + (e.getOriginY() / 2));
-	}
+    /**
+     * Updates the entity. If not overridden, does nothing.
+     *
+     * @param delta The current delta time
+     */
+    public void update(float delta) {
+    }
 
-	/**
-	 * Calculate the direction from the entity to a point.
-	 * 
-	 * @param x The x-coordinate of the point
-	 * @param y The y-coordinate of the point
-	 * @return The direction of the entity
-	 */
-	public float directionTo(float x, float y) {
-		return (float) ((180 / Math.PI) * Math.atan2(x - (getX() + getOriginX()), y - (getY() + getOriginY())));
-	}
+    /**
+     * Calculate the direction from the current entity to another entity.
+     *
+     * @param e The entity to calculate the direction of
+     * @return The direction of the entity
+     */
+    public float directionTo(Entity e) {
+        return directionTo(e.getX() + (e.getOriginX() / 2), e.getY() + (e.getOriginY() / 2));
+    }
 
-	/**
-	 * Calculate the distance from the current entity to another entity.
-	 *
-	 * @param e The entity to calculate the distance to
-	 * @return The distance to the entity
-	 */
-	public float distanceTo(Entity e) {
-		return distanceTo(e.getX() + (e.getOriginX()), e.getY() + (e.getOriginY()));
-	}
+    /**
+     * Calculate the direction from the entity to a point.
+     *
+     * @param x The x-coordinate of the point
+     * @param y The y-coordinate of the point
+     * @return The direction of the entity
+     */
+    public float directionTo(float x, float y) {
+        return (float) ((180 / Math.PI) * Math.atan2(x - (getX() + getOriginX()), y - (getY() + getOriginY())));
+    }
 
-	/**
-	 * Calculate the distance from the entity to a point.
-	 *
-	 * @param x The x-coordinate of the point
-	 * @param y The y-coordinate of the point
-	 * @return The distance to the point
-	 */
-	public float distanceTo(float farx, float fary) {
-		return (float) Math
-				.sqrt(Math.pow((fary - (getY() + getOriginY())), 2) + Math.pow((farx - (getX() + getOriginX())), 2));
-	}
+    /**
+     * Calculate the distance from the current entity to another entity.
+     *
+     * @param e The entity to calculate the distance to
+     * @return The distance to the entity
+     */
+    public float distanceTo(Entity e) {
+        return distanceTo(e.getX() + (e.getOriginX()), e.getY() + (e.getOriginY()));
+    }
+
+    /**
+     * Calculate the distance from the entity to a point.
+     *
+     * @param x The x-coordinate of the point
+     * @param y The y-coordinate of the point
+     * @return The distance to the point
+     */
+    public float distanceTo(float farx, float fary) {
+        return (float) Math
+                .sqrt(Math.pow((fary - (getY() + getOriginY())), 2) + Math.pow((farx - (getX() + getOriginX())), 2));
+    }
 }

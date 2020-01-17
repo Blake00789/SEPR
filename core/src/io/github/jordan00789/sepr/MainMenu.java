@@ -10,35 +10,35 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class MainMenu implements Screen {
 
-	final Kroy game;
-	OrthographicCamera camera;
+    final Kroy game;
+    OrthographicCamera camera;
 
-	private Texture menuImage;
+    private Texture menuImage;
 
-	public MainMenu(final Kroy game) {
-		this.game = game;
+    public MainMenu(final Kroy game) {
+        this.game = game;
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		menuImage = new Texture("splashscreen.png");
-	}
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        menuImage = new Texture("splashscreen.png");
+    }
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		Batch batch = game.batch;
-		batch.begin();
-		batch.draw(menuImage,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        Batch batch = game.batch;
+        batch.begin();
+        batch.draw(menuImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
 
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-			game.setScreen(new MainGame(game));
-			dispose();
-		}
-	}
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            game.setScreen(new MainGame(game));
+            dispose();
+        }
+    }
 
 	@Override
 	public void resize(int width, int height) {
@@ -48,8 +48,11 @@ public class MainMenu implements Screen {
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-
 	}
+
+    @Override
+    public void hide() {
+    }
 
 	@Override
 	public void pause() {
@@ -63,15 +66,7 @@ public class MainMenu implements Screen {
 
 	}
 
-	@Override
-	public void hide() {
-		// Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// Auto-generated method stub
-
-	}
+    @Override
+    public void dispose() {
+    }
 }
