@@ -19,8 +19,8 @@ public class MainGame implements Screen {
 
     // Entities
     Firetruck camTruck;
-    Firetruck truck1;
-    Firetruck truck2;
+    static Firetruck truck1;
+    static Firetruck truck2;
     public static Firetruck currentTruck;
     Fortress fortress1;
     Fortress fortress2;
@@ -158,7 +158,7 @@ public class MainGame implements Screen {
         }
         
         FiretruckMenu.create();
-
+        
         batch.end();
     }
 

@@ -28,6 +28,7 @@ public class FiretruckMenu {
 
 	public static Stage stage;
 	private static Table backgroundTable, iconTable, barTableTruck1, barTableTruck2;
+	static ProgressBar waterBar, waterBar2, healthBar, healthBar2;
 
 	// Creates an image button from a texture by defining a drawable texture region.
 	private static ImageButton createImageButton(Texture tex) {
@@ -132,23 +133,23 @@ public class FiretruckMenu {
 		ImageButton firetruckUI3 = createImageButton(new Texture("truckUI.png"));
 
 		// updated using a SetValue() between 0 and 1
-		ProgressBar waterBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleWater());
-		waterBar.setValue(1.0f);
+		waterBar = new ProgressBar(0.0f, 80.0f, 1.0f, false, progressBarStyleWater());
+		waterBar.setValue(MainGame.truck1.getWater());
 		waterBar.setAnimateDuration(0.25f);
 		waterBar.setBounds(6, 6, 60, 12);
-
-		ProgressBar waterBar2 = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleWater());
-		waterBar2.setValue(1.0f);
+		
+		waterBar2 = new ProgressBar(0.0f, 200.0f, 1.0f, false, progressBarStyleWater());
+		waterBar2.setValue(MainGame.truck2.getWater());
 		waterBar2.setAnimateDuration(0.25f);
 		waterBar2.setBounds(6, 6, 60, 12);
 
-		ProgressBar healthBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleHP());
-		healthBar.setValue(1.0f);
+		healthBar = new ProgressBar(0.0f, 150.0f, 1.0f, false, progressBarStyleHP());
+		healthBar.setValue(MainGame.truck1.getHealth());
 		healthBar.setAnimateDuration(0.25f);
 		healthBar.setBounds(6, 6, 60, 12);
-
-		ProgressBar healthBar2 = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyleHP());
-		healthBar2.setValue(1.0f);
+		
+		healthBar2 = new ProgressBar(0.0f, 50.0f, 1.0f, false, progressBarStyleHP());
+		healthBar2.setValue(MainGame.truck2.getHealth());
 		healthBar2.setAnimateDuration(0.25f);
 		healthBar2.setBounds(6, 6, 60, 12);
 
@@ -175,18 +176,6 @@ public class FiretruckMenu {
 		stage.addActor(barTableTruck1);
 		stage.addActor(barTableTruck2);
 		Gdx.input.setInputProcessor(stage);
-
-//		firetruckUI1.addListener(new ClickListener() {
-//			public void clicked(InputEvent event, float x, float y) {
-//				
-//				//to be
-//				if (MainGame.truck1.getColor() == Color.BLACK) {
-//					MainGame.truck1.setColor(Color.WHITE);
-////					Gdx.app.log("colour:", "black to white");
-//				}
-//				event.stop();
-//			}
-//		});
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
