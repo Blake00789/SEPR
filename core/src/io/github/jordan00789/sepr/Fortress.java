@@ -35,7 +35,7 @@ public class Fortress extends Entity implements Attack {
             if (ableToAttack) {
                 Projectile goo = new Projectile((getX() + 384) + ((float) Math.sin(directionTo(e) * piConstant) * 10),
                         (getY() + 384 + ((float) Math.cos(directionTo(e) * piConstant) * 10)), directionTo(e) + n, 50f,
-                        5f, new Texture("goo.png"));
+                        1f, new Texture("goo.png"));
                 goos.add(goo);
 
             }

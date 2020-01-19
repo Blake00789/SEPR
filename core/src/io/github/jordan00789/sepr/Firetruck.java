@@ -253,7 +253,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
                 return 0f;
             case ("#8070f0"):
                 if (water == maxWater) {
-                    setColor(Color.RED);
+                    setColor(Color.WHITE);
                 }
                 refill();
                 setHealth((int) (getHealth() + 1));
@@ -272,7 +272,7 @@ public class Firetruck extends Entity implements Attack, Moveable {
      */
     @Override
     public void attack() {
-        if (drops.size() < 20 && water > 0) {
+        if (drops.size() < 200 && water > 0) {
             takeWater(1);
             Projectile drop = new Projectile(
                     (getX() + getOriginX() / 2) + ((float) Math.sin(direction * piConstant) * 10),

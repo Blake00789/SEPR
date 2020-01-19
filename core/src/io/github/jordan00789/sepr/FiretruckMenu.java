@@ -1,25 +1,18 @@
 package io.github.jordan00789.sepr;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import com.badlogic.gdx.utils.Align;
@@ -28,7 +21,7 @@ public class FiretruckMenu {
 
 	public static Stage stage;
 	private static Table backgroundTable, iconTable, barTableTruck1, barTableTruck2;
-	static ProgressBar waterBar, waterBar2, healthBar, healthBar2;
+	static ArrayList<ProgressBar> progressBars = new ArrayList<ProgressBar>();
 
 	// Creates an image button from a texture by defining a drawable texture region.
 	private static ImageButton createImageButton(Texture tex) {
@@ -44,7 +37,7 @@ public class FiretruckMenu {
 		pixmapHP.dispose();
 		ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
 		progressBarStyleHP.background = drawableHP;
-		
+
 		// sets drawable with width=0 to get rid of knob
 		pixmapHP = new Pixmap(0, 5, Format.RGBA8888);
 		pixmapHP.setColor(Color.GREEN);
@@ -52,8 +45,9 @@ public class FiretruckMenu {
 		TextureRegionDrawable drawableHP2 = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapHP)));
 		pixmapHP.dispose();
 		progressBarStyleHP.knob = drawableHP2;
-		
-		// before the knob is represented by the drawable with the width of the background
+
+		// before the knob is represented by the drawable with the width of the
+		// background
 		Pixmap pixmapHP2 = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapHP2.setColor(Color.GREEN);
 		pixmapHP2.fill();
@@ -83,23 +77,24 @@ public class FiretruckMenu {
 		pixmapWater.dispose();
 		progressBarStyleWater.knob = drawableWater2;
 
-		// before the knob is represented by the drawable with the width of the background
+		// before the knob is represented by the drawable with the width of the
+		// background
 		Pixmap pixmapWater2 = new Pixmap(60, 5, Format.RGBA8888);
 		pixmapWater2.setColor(Color.BLUE);
 		pixmapWater2.fill();
 		drawableWater = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapWater2)));
 		pixmapWater2.dispose();
 		progressBarStyleWater.knobBefore = drawableWater;
-		
+
 		return progressBarStyleWater;
 	}
 
 	/*
 	 * Initialises the stage, backgroundTable, iconTable, barTableTruck1 and
-	 * barTableTruck2. 
-	 * Creates four image buttons UIBackground, firetruckUI1, firetruckUI2 and firetruckUI3.
-	 * Creates four bars, waterBar, waterBar2, healthBar and healthBar2.
-	 * Add actors to their respective tables. Then add the tables to the stage.
+	 * barTableTruck2. Creates four image buttons UIBackground, firetruckUI1,
+	 * firetruckUI2 and firetruckUI3. Creates four bars, waterBar, waterBar2,
+	 * healthBar and healthBar2. Add actors to their respective tables. Then add the
+	 * tables to the stage.
 	 */
 	public static void create() {
 
@@ -130,28 +125,13 @@ public class FiretruckMenu {
 		ImageButton UIBackground = createImageButton(new Texture("stationUI.png"));
 		ImageButton firetruckUI1 = createImageButton(new Texture("truckUI.png"));
 		ImageButton firetruckUI2 = createImageButton(new Texture("truckUI.png"));
-		ImageButton firetruckUI3 = createImageButton(new Texture("truckUI.png"));
+		// ImageButton firetruckUI3 = createImageButton(new Texture("truckUI.png"));
 
 		// updated using a SetValue() between 0 and 1
-		waterBar = new ProgressBar(0.0f, 80.0f, 1.0f, false, progressBarStyleWater());
-		waterBar.setValue(MainGame.truck1.getWater());
-		waterBar.setAnimateDuration(0.25f);
-		waterBar.setBounds(6, 6, 60, 12);
-		
-		waterBar2 = new ProgressBar(0.0f, 200.0f, 1.0f, false, progressBarStyleWater());
-		waterBar2.setValue(MainGame.truck2.getWater());
-		waterBar2.setAnimateDuration(0.25f);
-		waterBar2.setBounds(6, 6, 60, 12);
-
-		healthBar = new ProgressBar(0.0f, 150.0f, 1.0f, false, progressBarStyleHP());
-		healthBar.setValue(MainGame.truck1.getHealth());
-		healthBar.setAnimateDuration(0.25f);
-		healthBar.setBounds(6, 6, 60, 12);
-		
-		healthBar2 = new ProgressBar(0.0f, 50.0f, 1.0f, false, progressBarStyleHP());
-		healthBar2.setValue(MainGame.truck2.getHealth());
-		healthBar2.setAnimateDuration(0.25f);
-		healthBar2.setBounds(6, 6, 60, 12);
+		addProgressBar(new ProgressBar(0.0f, 80.0f, 1.0f, false, progressBarStyleWater()), MainGame.truck1.getWater());
+		addProgressBar(new ProgressBar(0.0f, 150.0f, 1.0f, false, progressBarStyleHP()), MainGame.truck1.getHealth());
+		addProgressBar(new ProgressBar(0.0f, 200.0f, 1.0f, false, progressBarStyleWater()), MainGame.truck2.getWater());
+		addProgressBar(new ProgressBar(0.0f, 50.0f, 1.0f, false, progressBarStyleHP()), MainGame.truck2.getHealth());
 
 		backgroundTable.add(UIBackground).padLeft(20);
 
@@ -159,17 +139,18 @@ public class FiretruckMenu {
 		iconTable.add(firetruckUI1).width(Value.percentWidth(0.025F, iconTable));
 		iconTable.row().height(100).padLeft(30);
 		iconTable.add(firetruckUI2);
-		iconTable.row().height(50).padLeft(30);
-		iconTable.add(firetruckUI3);
+		// iconTable.row().height(50).padLeft(30);
+		// iconTable.add(firetruckUI3);
 
 		barTableTruck1.row().padLeft(13);
-		barTableTruck1.add(healthBar).maxWidth(60);
+		barTableTruck1.add(progressBars.get(1)).maxWidth(60);
 		barTableTruck1.row().padLeft(13);
-		barTableTruck1.add(waterBar).maxWidth(60);
+		barTableTruck1.add(progressBars.get(0)).maxWidth(60);
 
-		barTableTruck2.add(healthBar2).maxWidth(60).padLeft(13);
 		barTableTruck2.row().padLeft(13);
-		barTableTruck2.add(waterBar2).maxWidth(60);
+		barTableTruck2.add(progressBars.get(3)).maxWidth(60);
+		barTableTruck2.row().padLeft(13);
+		barTableTruck2.add(progressBars.get(2)).maxWidth(60);
 
 		stage.addActor(backgroundTable);
 		stage.addActor(iconTable);
@@ -178,6 +159,24 @@ public class FiretruckMenu {
 		Gdx.input.setInputProcessor(stage);
 
 		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
+	}
+
+	private static void addProgressBar(ProgressBar bar, float value) {
+		bar.setValue(value);
+		bar.setAnimateDuration(0.25f);
+		bar.setBounds(6, 6, 60, 12);
+		progressBars.add(bar);
+	}
+
+	public static void update(float delta) {
+		if (!progressBars.isEmpty()) {
+			progressBars.get(0).setValue(MainGame.truck1.getWater());
+			progressBars.get(1).setValue(MainGame.truck1.getHealth());
+			progressBars.get(2).setValue(MainGame.truck2.getWater());
+			progressBars.get(3).setValue(MainGame.truck2.getHealth());
+		}
+		stage.act(delta);
 		stage.draw();
 	}
 
