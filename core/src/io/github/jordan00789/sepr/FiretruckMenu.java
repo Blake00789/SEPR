@@ -129,7 +129,7 @@ public class FiretruckMenu {
 
 		// updated using a SetValue() between 0 and 1
 		addProgressBar(new ProgressBar(0.0f, 80.0f, 1.0f, false, progressBarStyleWater()), MainGame.truck1.getWater());
-		addProgressBar(new ProgressBar(0.0f, 150.0f, 1.0f, false, progressBarStyleHP()), MainGame.truck1.getHealth());
+		addProgressBar(new ProgressBar(0.0f, 100.0f, 1.0f, false, progressBarStyleHP()), MainGame.truck1.getHealth());
 		addProgressBar(new ProgressBar(0.0f, 200.0f, 1.0f, false, progressBarStyleWater()), MainGame.truck2.getWater());
 		addProgressBar(new ProgressBar(0.0f, 50.0f, 1.0f, false, progressBarStyleHP()), MainGame.truck2.getHealth());
 

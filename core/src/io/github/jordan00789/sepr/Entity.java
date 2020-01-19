@@ -40,7 +40,7 @@ public class Entity extends Sprite {
 	}
 
 	/**
-	 * Sets the health of the entity.
+	 * Sets the health of the entity, if the value passed is less than maxHealth
 	 *
 	 * @param health The value to set health to
 	 */

@@ -75,6 +75,8 @@ public class MainGame implements Screen {
 		fortress3 = new Fortress(200, new Texture("minster.png"), 3);
 		initEntity(fortress3, (0.47f * width), (0.82f * height));
 
+		// This entity is used to fill the end of the entity array.
+		// The last entity in entities is not rendered due to a UI bug.
 		nullEntity = new Entity(1, new Texture("badlogic.jpg"));
 		initEntity(nullEntity, 1000, 500);
 	}
@@ -83,7 +85,7 @@ public class MainGame implements Screen {
 	 * Separate method to load the trucks.
 	 */
 	private void loadTrucks() {
-		truck1 = new Firetruck(150, 80, new Texture("truck1.png"));
+		truck1 = new Firetruck(100, 80, new Texture("truck1.png"));
 		initEntity(truck1, 309, 290);
 
 		truck2 = new Firetruck(50, 200, new Texture("truck2.png"));
@@ -121,7 +123,6 @@ public class MainGame implements Screen {
 	public void render(float delta) {
 
 		takeInputs();
-		
 
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
