@@ -37,11 +37,9 @@ public class EntityTest {
 
     @org.junit.Test
     public void isDestroyed() {
-        entity.setHealth(0);
-        assertTrue(entity.isDestroyed());
+        entity.setHealth(10);
+        assertTrue(!entity.isDestroyed());
         entity.takeDamage(10);
         assertTrue(entity.isDestroyed());
-        entity.setHealth(100);
-        assertTrue(!entity.isDestroyed());
     }
 }

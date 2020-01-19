@@ -13,13 +13,10 @@ import com.badlogic.gdx.graphics.Texture;
 public class FiretruckTest {
 
     private Firetruck truck;
-    private Kroy kroy;
 
     @Before
     public void init() {
-        truck = new Firetruck(100, 500, new Texture("../core/assets/truck1.png"));
-        kroy = new Kroy();
-        kroy.setScreen(new MainGame(kroy));
+        truck = new Firetruck(100, 500, new Texture("truck1.png"));
     }
 
     @Test
