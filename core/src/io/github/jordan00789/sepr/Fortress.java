@@ -28,7 +28,8 @@ public class Fortress extends Entity implements Attack {
     /**
      * Attempts to attack the specified entity, should be currentFiretruck.
      *
-     * @param e The entity to aim at.
+     * @param e The entity to aim at
+     * @param n The attack type, between 1 and 3
      */
     public void attack(Entity e, int n) {
         if (e != null) {
@@ -55,7 +56,7 @@ public class Fortress extends Entity implements Attack {
     /**
      * Attacks currentTruck if it's in range, and updates the goo projectiles.
      *
-     * @param delta The current delta time.
+     * @param delta The current delta time
      */
     @Override
     public void update(float delta) {

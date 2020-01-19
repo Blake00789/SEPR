@@ -24,6 +24,8 @@ public interface Moveable {
 
     /**
      * Updates the entity's movement.
+     * 
+     * @param delta The change in time, in seconds
      */
     void update(float delta);
 }

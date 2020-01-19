@@ -110,8 +110,8 @@ public class Entity extends Sprite {
 	/**
 	 * Calculate the distance from the entity to a point.
 	 *
-	 * @param x The x-coordinate of the point
-	 * @param y The y-coordinate of the point
+	 * @param farx The x-coordinate of the point
+	 * @param fary The y-coordinate of the point
 	 * @return The distance to the point
 	 */
 	public float distanceTo(float farx, float fary) {
