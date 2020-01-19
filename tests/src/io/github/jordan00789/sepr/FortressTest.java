@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 public class FortressTest {
 
     private Fortress fortress;
-    private Kroy kroy;
 
     @Before
     public void init() {
