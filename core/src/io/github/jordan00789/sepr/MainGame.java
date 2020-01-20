@@ -24,18 +24,16 @@ public class MainGame implements Screen {
 	Fortress fortress1, fortress2, fortress3;
 	Entity nullEntity;
 	Texture map;
-	Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
-	public static Pixmap speedMap;
+	static Pixmap pmap = new Pixmap(Gdx.files.internal("map.png"));
+	public static Pixmap speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), pmap.getFormat());
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
 	public MainGame(final Kroy game) {
 		this.game = game;
 
 		// This is a pixmap used to get the pixel RGBA values at specified coordinates.
-		speedMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), pmap.getFormat());
 		speedMap.drawPixmap(pmap, 0, 0, pmap.getWidth(), pmap.getHeight(), 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 

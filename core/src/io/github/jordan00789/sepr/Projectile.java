@@ -32,9 +32,6 @@ public class Projectile extends Entity implements Moveable {
         this.velocity = velocity;
         this.lifeTime = lifeTime;
         startTime = Instant.now();
-
-        // System.out.printf("Projectile: x=%f, y=%f, direction=%f, v=%f,
-        // lifetime=%f%n", x,y,direction,velocity,lifeTime);
     }
 
     @Override
@@ -67,11 +64,13 @@ public class Projectile extends Entity implements Moveable {
 
         setPosition((float) (getX() + (Math.sin(Math.toRadians(direction)) * delta * velocity)),
                 (float) (getY() + (Math.cos(Math.toRadians(direction)) * delta * velocity)));
-
+        
         String col = MainGame.getPixelColour(getX() + getOriginX(), getY() + getOriginY());
+        // If the projectile hits a wall
         if (col.equals("#6040f0") || col.equals("#6050f0")) {
             disposable = true;
         }
+        // Checks if it is within 10 pixels of another entity
         Entity e;
         for (int i = 0; i < MainGame.entities.size(); i++) {
             e = MainGame.entities.get(i);

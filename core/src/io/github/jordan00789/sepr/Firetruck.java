@@ -212,7 +212,9 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	private float speedLimit() {
 		int pixcolour;
 		// Checks either front or back of the truck sprite depending on whether the
-		// truck is moving forwards or backwards
+		// truck is moving forwards or backwards.
+		// The addition of (a sin/cos component * 9) means that the front or back pixel of
+		// the truck is checked instead of the central pixel.
 		if (velocity > 0) {
 			pixcolour = MainGame.speedMap.getPixel(
 					Math.round(getX() + getOriginX() + ((float) Math.sin(direction * piConstant) * 9)),
@@ -268,10 +270,11 @@ public class Firetruck extends Entity implements Attack, Moveable {
 	}
 
 	/**
-	 * Creates a new water droplet and launches it from the truck's position
+	 * Creates a new water droplet and launches it from the truck's position.
 	 */
 	@Override
 	public void attack() {
+		//Stops more than 200 drops being rendered per truck for optimisation reasons
 		if (drops.size() < 200 && water > 0) {
 			takeWater(1);
 			Projectile drop = new Projectile(
